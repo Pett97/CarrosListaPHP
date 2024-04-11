@@ -1,6 +1,15 @@
 <?php
 define('DB_PATH', '../database/cars.txt');
 
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method === 'POST' && ($_POST['car']) &&!empty($_POST['car'])) {
+  $cars = $_POST['car'];
+  file_put_contents(DB_PATH, $cars . PHP_EOL, FILE_APPEND);
+}
+
+
+
 $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
 
 ?>
@@ -15,7 +24,7 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
   <!-- Compiled and minified CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <title>Lista De Carros</title>
-</head>na
+</head>
 
 <body>
   <nav class="blue darken-3 center">Lista De Carros</nav>
@@ -24,10 +33,11 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
       <form action="/" method="POST" class="col s12">
         <div class="row">
           <div class="input-field col s12 m12 l12">
-            <input placeholder="Exemplo GOL" id="car_name" type="text" class="validate">
+            <input placeholder="Exemplo GOL" id="car_name" type="text" class="validate" name="car">
             <label for="car_name">Nome Carro</label>
           </div>
         </div>
+        <button class="waves-effect waves-light btn blue" type="submit" >teste</button>
       </form>
     </div>
   </section>
