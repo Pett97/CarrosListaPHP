@@ -33,11 +33,11 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
       <form action="/" method="POST" class="col s12">
         <div class="row">
           <div class="input-field col s12 m12 l12">
-            <input placeholder="Exemplo GOL" id="car_name" type="text" class="validate" name="car">
+            <input placeholder="Exemplo: GOL" id="car_name" type="text" class="validate" name="car">
             <label for="car_name">Nome Carro</label>
           </div>
         </div>
-        <button class="waves-effect waves-light btn blue" type="submit" >teste</button>
+        <button class="waves-effect waves-light btn blue" type="submit" >Salvar</button>
       </form>
     </div>
   </section>
