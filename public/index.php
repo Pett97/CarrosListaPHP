@@ -27,7 +27,19 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
 </head>
 
 <body>
-  <nav class="blue darken-3 center">Lista De Carros</nav>
+  <section>
+    <nav>
+      <div class="nav-wrapper blue darken-4">
+        <a href="" class="brand-logo center">Carros</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+          <li><a href="./pages/brand/new.php">Marcas</a></li>
+        </ul>
+      </div>
+    </nav>
+  </section>
+  <br>
+
+  <div class="container">
   <section>
     <div class="row">
       <form action="/" method="POST" class="col s12">
@@ -49,6 +61,7 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
       </ul>
     <?php endforeach ?>
   </section>
+  </div>
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
