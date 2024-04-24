@@ -1,2 +1,2 @@
 <?php
-header("Location: /pages/cars/index.php");
+header("Location: /pages/cars/list_car.php");

@@ -1,14 +1,6 @@
 <?php
 define('DB_PATH', '../../../database/cars.txt');
 
-$method = $_SERVER['REQUEST_METHOD'];
-
-if ($method === 'POST' && ($_POST['car']) && !empty($_POST['car'])) {
-  $cars = $_POST['car'];
-  file_put_contents(DB_PATH, $cars . PHP_EOL, FILE_APPEND);
-}
-
-
 
 $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
 
