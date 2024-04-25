@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 define('DB_PATH', '../database/cars.txt');
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -54,3 +55,6 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
 </body>
 
 </html>
+=======
+header("Location: /pages/cars/list_car.php");
+>>>>>>> 7-create-model-car
