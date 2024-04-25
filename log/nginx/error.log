@@ -24,3 +24,9 @@
 2024/04/20 00:33:58 [error] 28#28: *30 open() "/var/www/public/pages/cars/application.phtml" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/cars/application.phtml HTTP/1.1", host: "localhost", referrer: "http://localhost/pages/cars/new_car.php"
 2024/04/20 00:33:59 [error] 28#28: *30 open() "/var/www/public/pages/cars/application.phtml" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/cars/application.phtml HTTP/1.1", host: "localhost", referrer: "http://localhost/pages/cars/new_car.php"
 >>>>>>> refs/remotes/origin/main
+2024/04/25 00:35:54 [error] 30#30: *17 directory index of "/var/www/public/pages/" is forbidden, client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"
+2024/04/25 00:35:54 [error] 30#30: *17 open() "/var/www/public/pages/erros/403.html" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"
+2024/04/25 00:36:14 [error] 30#30: *17 directory index of "/var/www/public/pages/" is forbidden, client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"
+2024/04/25 00:36:14 [error] 30#30: *17 open() "/var/www/public/pages/erros/403.html" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"
+2024/04/25 00:36:33 [error] 30#30: *17 directory index of "/var/www/public/pages/" is forbidden, client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"
+2024/04/25 00:36:33 [error] 30#30: *17 open() "/var/www/public/pages/erros/403.html" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/ HTTP/1.1", host: "localhost"

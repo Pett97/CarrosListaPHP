@@ -1,26 +1,10 @@
-<?php
-define('DB_PATH', '../../../database/cars.txt');
-
-$method = $_SERVER['REQUEST_METHOD'];
-
-if ($method === 'POST' && ($_POST['car']) &&!empty($_POST['car'])) {
-  $cars = $_POST['car'];
-  file_put_contents(DB_PATH, $cars . PHP_EOL, FILE_APPEND);
-}
-
-
-
-$cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
-
-?>
-
 
 <section>
     <div class="row">
-      <form action="" method="POST" class="col s12">
+      <form action="create_car.php" method="POST" class="col s12">
         <div class="row">
           <div class="input-field col s12 m12 l12">
-            <input placeholder="Exemplo: GOL" id="car_name" type="text" class="validate" name="car">
+            <input placeholder="Exemplo: GOL" id="car_name" type="text" class="validate" name="car_name">
             <label for="car_name">Nome Carro</label>
           </div>
         </div>
