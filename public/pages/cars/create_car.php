@@ -7,13 +7,23 @@ if ($method !== "POST") {
   exit;
 }
 
-$carName = $_POST["car_name"];
+$carName = trim($_POST["car_name"]);
 
-define('DB_PATH', '/var/www/database/cars.txt');
+$erros = [];
 
-file_put_contents(DB_PATH,$carName. PHP_EOL,FILE_APPEND);
+if (empty($carName)) {
+  $erros[$carName] = "nome do carro não pode ser vazio";
+}
 
-header("Location: /pages/cars/list_car.php");
+if (empty($erros)) {
+  define('DB_PATH', '/var/www/database/cars.txt');
+
+  file_put_contents(DB_PATH, $carName . PHP_EOL, FILE_APPEND);
+  header("Location: /pages/cars/list_car.php");
+} else {
+  $title = "Novo Carro";
+  $view = "/var/www/app/views/cars/new_car.phtml";
 
 
-
+  require "/var/www/app/views/layouts/application.phtml";
+}
