@@ -2,3 +2,5 @@ gol
 palio
 corsa
 jetta
+hilux
+Belina
