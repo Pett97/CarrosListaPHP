@@ -1,10 +1,10 @@
 <?php
-
-class Car
+class Brand
 {
-  const DB_PATH  = '/var/www/database/cars.txt';
-  private int $id = 0;
-  private string $name = "";
+  const DB_PATH  = '/var/www/database/brand.txt';
+  private int $id  = 0;
+  private string $name;
+
 
   private array $errors = [];
 
@@ -44,7 +44,7 @@ class Car
   public function save(): bool
   {
     if ($this->isValid()) {
-      $this->id = count(file(self::DB_PATH));
+      $this->id = count(file(self::DB_PATH))+1;
       file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
       return true;
     }
@@ -57,7 +57,7 @@ class Car
     $this->errors = [];
 
     if (empty($this->getName())) {
-      $this->addErro("Nome do Carro Não Pode ser Vazio");
+      $this->addErro("Nome Marca Não Pode ser Vazio");
     }
 
     return empty($this->errors);
