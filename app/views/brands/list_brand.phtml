@@ -5,19 +5,22 @@ $brands = file(DB_PATH, FILE_IGNORE_NEW_LINES);
 ?>
 
 <section>
-  <div class="row">
-    <div class="col">
+<div>
       <h4>Marcas Informadas</h4>
-
-    </div>
-    <div class="col">
-      <a href="new_brand.php"><button class="btn waves-effect waves-light" type="submit" name="action">Nova
+      <a href="new_brand.php"><button class="btn waves-effect waves-light green " type="submit" name="action">Nova
         </button></a>
     </div>
-  </div>
   <?php foreach ($brands as $index => $brand) : ?>
     <ul class="collection registered brands">
       <li class="collection-item"> <?= $brand ?>
+
+      <div class="right">
+              <form action="delete_brand.php" method="POST">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="hidden" name="brand_delete" value="<?= $index ?>">
+                <button class="waves-effect waves-light btn-small red" type="submit"><i class="material-icons center">delete</i></button>
+              </form>
+            </div>
 
       <a href="/pages/brand/edit_brand.php?brand_name=<?= urlencode($brand) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">edit</i></a>
 
