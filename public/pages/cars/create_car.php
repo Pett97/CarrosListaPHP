@@ -7,7 +7,7 @@ if ($method !== "POST") {
   exit;
 }
 
-$carName = trim($_POST["car_name"]);
+$carName = trim($_POST["car"]);
 
 $erros = [];
 

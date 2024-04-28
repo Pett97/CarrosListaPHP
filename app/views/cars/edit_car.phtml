@@ -1,0 +1,15 @@
+<section>
+  <div class="row">
+    <form action="update_car.php" method="POST" class="col s12">
+      <div class="row">
+        <div class="input-field col s12 m12 l12">
+          <input type="hidden" name="_method" value="PUT">
+          <input type="hidden" name="carEdit" value="<?=$carName?>">
+          <input placeholder="<?= $carName ?>" id="newCar" type="text" class="validate" name="newCar">
+          <label for="newCar">Nome Carro</label>
+        </div>
+      </div>
+      <button class="waves-effect waves-light btn blue" type="submit">Salvar</button>
+    </form>
+  </div>
+</section>

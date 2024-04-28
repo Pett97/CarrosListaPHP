@@ -21,7 +21,11 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
     <?php foreach ($cars as $index => $car) : ?>
       <ul class="collection registered cars">
         <div class="row">
-          <li class=" collection-item"><?= $car ?><a href="/pages/cars/show_car.php?car_name=<?= urlencode($car) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a></li>
+          <li class=" collection-item"><?= $car ?>
+
+          <a href="/pages/cars/edit_car.php?car_name=<?= urlencode($car) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">edit</i></a>
+
+          <a href="/pages/cars/show_car.php?car_name=<?= urlencode($car) ?>" class="right blue accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a></li>
         </div>
       </ul>
     <?php endforeach ?>
