@@ -1,0 +1,15 @@
+<section>
+  <div class="row">
+    <form action="update_brand.php" method="POST" class="col s12">
+      <div class="row">
+        <div class="input-field col s12 m12 l12">
+          <input type="hidden" name="_method" value="PUT">
+          <input type="hidden" name="brandEdit" value="<?=$brandName?>">
+          <input placeholder="<?= $brandName ?>" id="newBrand" type="text" class="validate" name="newBrand">
+          <label for="newBrand">Nome Marca</label>
+        </div>
+      </div>
+      <button class="waves-effect waves-light btn blue" type="submit">Salvar</button>
+    </form>
+  </div>
+</section>
