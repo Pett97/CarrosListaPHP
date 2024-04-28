@@ -18,7 +18,7 @@ $brands = file(DB_PATH,FILE_IGNORE_NEW_LINES);
     </div>
   <?php foreach ($brands as $index => $brand) : ?>
     <ul class="collection registered brands">
-      <li class="collection-item"> <?= $brand ?> </li>
+      <li class="collection-item"> <?= $brand ?><a href="/pages/brand/show_brand.php?brand_name=<?= urlencode($brand) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a></li> </li>
     </ul>
   <?php endforeach ?>
 </section>

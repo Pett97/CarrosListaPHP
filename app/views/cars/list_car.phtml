@@ -11,17 +11,18 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
     <div class="row">
       <div class="col">
         <h4>Carros Informados</h4>
-
       </div>
       <div class="col">
-      <a href="new_car.php"><button class="btn waves-effect waves-light" type="submit" name="action">Novo
-      </button></a>
+        <a href="new_car.php"><button class="btn waves-effect waves-light green" type="submit" name="action">Novo
+          </button></a>
       </div>
     </div>
 
     <?php foreach ($cars as $index => $car) : ?>
       <ul class="collection registered cars">
-        <li class="collection-item"> <?= $car ?> </li>
+        <div class="row">
+          <li class=" collection-item"><?= $car ?><a href="/pages/cars/show_car.php?car_name=<?= urlencode($car) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a></li>
+        </div>
       </ul>
     <?php endforeach ?>
   </section>
