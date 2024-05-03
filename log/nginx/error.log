@@ -2,3 +2,4 @@
 2024/04/25 00:59:39 [error] 29#29: *2 open() "/var/www/public/pages/erros/403.html" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /pages/cars/ HTTP/1.1", host: "localhost"
 2024/04/25 01:00:33 [error] 29#29: *11 open() "/var/www/public/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/pages/brand/list_brand.php"
 2024/04/27 13:52:14 [error] 27#27: *25 open() "/var/www/public/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/pages/brand/new.php"
+2024/05/03 02:03:19 [error] 28#28: *1 open() "/var/www/public/favicon.ico" failed (2: No such file or directory), client: 172.19.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "http://localhost/pages/cars/list_car.php"
