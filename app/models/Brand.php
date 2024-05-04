@@ -3,7 +3,7 @@ class Brand
 {
   const DB_PATH  = '/var/www/database/brand.txt';
   private int $id  = 0;
-  private string $name;
+  private string $name = "";
 
 
   private array $errors = [];
@@ -11,12 +11,12 @@ class Brand
   public function __construct(string $name)
   {
     $this->id = -1;
-    $this->name = $name;
+    $this->name = strtoupper($name);
   }
 
   public function setName(string $newName): void
   {
-    $this->name = $newName;
+    $this->name = strtoupper($newName);
   }
 
   public function getName(): string
@@ -61,5 +61,26 @@ class Brand
     }
 
     return empty($this->errors);
+  }
+
+  public static function all():array{
+    $brands = file(self::DB_PATH,FILE_IGNORE_NEW_LINES);
+
+    return array_map(function($brandName){
+      return new Brand(name:$brandName);
+    },array_keys($brands),$brands);
+  }
+
+  public static function findByName(string $name):Brand|null{
+    $name = strtoupper($name);
+
+    $brands = self::all();
+
+    foreach($brands as $brand){
+        if($brand->getName() === $name){
+          return $brand;
+        }
+    }
+    return null;
   }
 }

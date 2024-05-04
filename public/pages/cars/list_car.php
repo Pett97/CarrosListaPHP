@@ -1,6 +1,12 @@
 <?php
- $title = "Lista De Carros";
- $view = "/var/www/app/views/cars/list_car.phtml";
+require "/var/www/core/errors/handler.php";
+require "/var/www/app/models/Car.php";
+
+$cars = Car::all();
 
 
- require "/var/www/app/views/layouts/application.phtml";
+$title = "Lista De Carros";
+$view = "/var/www/app/views/cars/list_car.phtml";
+
+
+require "/var/www/app/views/layouts/application.phtml";

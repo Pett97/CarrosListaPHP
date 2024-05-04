@@ -11,12 +11,12 @@ class Car
   public function __construct(string $name)
   {
     $this->id = -1;
-    $this->name = $name;
+    $this->name = strtoupper($name);
   }
 
   public function setName(string $newName): void
   {
-    $this->name = $newName;
+    $this->name = strtoupper($newName);
   }
 
   public function getName(): string
@@ -61,5 +61,26 @@ class Car
     }
 
     return empty($this->errors);
+  }
+
+  public static function all(): array
+  {
+    $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+
+    return array_map(function ($carName) {
+      return new Car(name: $carName);
+    }, array_keys($cars), $cars);
+  }
+
+  public static function findByName(string $name): Car|null
+  {
+    $cars = self::all();
+    $name = strtoupper($name);
+    foreach ($cars as $car) {
+      if ($car->getName() === $name) {
+        return $car;
+      }
+    }
+    return null;
   }
 }

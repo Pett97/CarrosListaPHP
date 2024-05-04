@@ -1,29 +1,21 @@
 <?php
+
+require "/var/www/app/models/Brand.php";
+
 $method = $_SERVER["REQUEST_METHOD"];
 
 if ($method !== "POST") {
   header("Location: /pages/brand/list_brand.php");
 }
 
-$brandName = trim($_POST["brand_name"]);
-$brandName = strtoupper($brandName);
 
+$brandName = trim($_POST["brand_name"]);
+$brand = new Brand(name:$brandName);
 $erros = [];
 
-if (empty($brandName)) {
-  $erros[$brandName] = "Nome da Marca não pode ser vazio";
-}
-
-if (empty($erros)) {
-  define("DB_PATH", "/var/www/database/brand.txt");
-
-  file_put_contents(DB_PATH, $brandName . PHP_EOL, FILE_APPEND);
-
+if($brand->save()){
   header("Location: /pages/brand/list_brand.php");
-} else {
+}else{
   $title = "Nova Marca";
-  $view = "/var/www/app/views/brands/new_brand.phtml";
-
-
-  require "/var/www/app/views/layouts/application.phtml";
+  $view = "/var/www/app/views/brands/list_brand.phtml";
 }

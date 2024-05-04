@@ -1,9 +1,11 @@
 <?php
-define("DB_PATH", "../../../database/brand.txt");
 
-$brands = file(DB_PATH, FILE_IGNORE_NEW_LINES);
+require "/var/www/app/models/Brand.php";
+
 
 $brandName = $_GET["brand_name"];
+
+$brand = Brand::findByName($brandName);
 
 $title = "Detalhes $brandName";
 
