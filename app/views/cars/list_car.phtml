@@ -1,11 +1,3 @@
-<?php
-define('DB_PATH', '../../../database/cars.txt');
-
-
-$cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
-
-?>
-
 <div class="container">
   <section>
     <div>
@@ -13,10 +5,10 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
       <a href="new_car.php"><button class="btn waves-effect waves-light green " type="submit" name="action">Novo
         </button></a>
     </div>
-    <?php foreach ($cars as $index => $car) : ?>
+    <?php foreach ($cars as $car) : ?>
       <ul class="collection registered cars">
         <div class="row">
-          <li class=" collection-item"><?= $car ?>
+          <li class=" collection-item"><?= $car->getName() ?>
 
             <div class="right">
               <form action="delete_car.php" method="POST">
@@ -26,9 +18,9 @@ $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES)
               </form>
             </div>
 
-            <a href="/pages/cars/edit_car.php?car_name=<?= urlencode($car) ?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">edit</i></a>
+            <a href="/pages/cars/edit_car.php?car_id=<?= $car->getID()?>" class="right yellow accent-4 waves-effect waves-light btn-small"><i class="material-icons center">edit</i></a>
 
-            <a href="/pages/cars/show_car.php?car_name=<?= urlencode($car) ?>" class="right blue accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a>
+            <a href="/pages/cars/show_car.php?car_id=<?=$car->getID()?>" class="right blue accent-4 waves-effect waves-light btn-small"><i class="material-icons center">search</i></a>
 
           </li>
         </div>

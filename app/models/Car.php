@@ -3,14 +3,12 @@
 class Car
 {
   const DB_PATH  = '/var/www/database/cars.txt';
-  private int $id = 0;
   private string $name = "";
 
   private array $errors = [];
 
-  public function __construct(string $name)
+  public function __construct(string $name, private int $id = -1)
   {
-    $this->id = -1;
     $this->name = strtoupper($name);
   }
 
@@ -41,55 +39,53 @@ class Car
     $this->errors[] = $text;
   }
 
-  public function save(): bool
-  {
-    if ($this->isValid()) {
-      $this->id = count(file(self::DB_PATH));
-      file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
-      return true;
-    }
-    return false;
-  }
-
-  public function update(string $newName):bool{
-    $cars = self::all();
-
-
-
-  }
-
   private function isValid(): bool
   {
-
     $this->errors = [];
 
     if (empty($this->getName())) {
-      $this->addErro("Nome do Carro Não Pode ser Vazio");
+      $this->addErro("Nome do Carro Não pode ser Vazio");
     }
-
     return empty($this->errors);
   }
 
   public static function all(): array
   {
     $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
-
-    return array_map(function ($carName) {
-      return new Car(name: $carName);
-    }, array_keys($cars), $cars);
+    return array_map(fn ($lineNumber, $carName) => new Car(id: $lineNumber, name: $carName), array_keys($cars), $cars);
   }
 
-  public static function findByName(string $name): Car|null
+  public static function findByID(int $id): Car|null
   {
     $cars = self::all();
-    $name = strtoupper($name);
+
     foreach ($cars as $car) {
-      if ($car->getName() === $name) {
+      if ($car->getID() === $id) {
         return $car;
       }
     }
     return null;
   }
 
-  
+  public function save(): bool
+  {
+    if ($this->isValid()) {
+      if ($this->newRecord()) {
+        $this->id = count(file(self::DB_PATH));
+        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+      } else {
+        $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $cars[$this->id] = $this->name;
+        $data = implode(PHP_EOL, $cars);
+        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+      }
+      return true;
+    }
+    return false;
+  }
+
+  public function newRecord(): bool
+  {
+    return $this->id == -1;
+  }
 }
