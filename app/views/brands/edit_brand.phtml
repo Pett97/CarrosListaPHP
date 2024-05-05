@@ -4,9 +4,9 @@
       <div class="row">
         <div class="input-field col s12 m12 l12">
           <input type="hidden" name="_method" value="PUT">
-          <input type="hidden" name="brandEdit" value="<?=$brandName?>">
-          <input placeholder="<?= $brandName ?>" id="newNameBrand" type="text" class="validate" name="newNameBrand">
-          <label for="newNameBrand">Nome Marca</label>
+          <input type="text" readonly name="idBrandForEdit" value=" ID.<?=$brand->getID()?>">
+          <input placeholder="Novo Nome" id="newNameBrand" type="text" class="validate" name="newNameBrand" required>
+          <label for="newNameBrand">Editar Nome  Marca <?=$brand->getName()?></label>
         </div>
       </div>
       <button class="waves-effect waves-light btn blue" type="submit">Salvar</button>

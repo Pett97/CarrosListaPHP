@@ -5,22 +5,21 @@ require "/var/www/app/models/Brand.php";
 $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
 
 if ($method !== "PUT") {
-  header("Location: /pages/brands/list_brand.php");
+  header("Location: /pages/brand/list_brand.php");
   exit;
 }
 
-$brandName = strtoupper(($_POST["brandEdit"]));
-var_dump($brandName);
-$brand = Brand::findByName($brandName);
-var_dump($brand);
+$id = intval($_POST["idBrandForEdit"]);
+$brand = Brand::findByID($id);
 
 $newNameBrand = trim($_POST["newNameBrand"]);
 if ($brand !== null) {
   $brand->setName($newNameBrand);
-  $brand->save();
+  $brand->save(); 
+  header("Location: /pages/brand/list_brand.php");
 }
 
-$title = "Editar $brandName ";
+$title = "Editar {$brand->getName()} ";
 $view = "/var/www/app/views/brands/edit_brand.phtml";
 
 require "/var/www/app/views/layouts/application.phtml";

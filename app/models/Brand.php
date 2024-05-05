@@ -2,16 +2,14 @@
 class Brand
 {
   const DB_PATH  = '/var/www/database/brand.txt';
-  
-  private int $id;
+
   public string $name = "";
 
 
   private array $errors = [];
 
-  public function __construct(string $name)
+  public function __construct(string $name, private int $id = -1)
   {
-    $this->id = -1;
     $this->name = trim(strtoupper($name));
   }
 
@@ -40,7 +38,8 @@ class Brand
     $this->errors[] = $text;
   }
 
-  public function hasErrors():bool{
+  public function hasErrors(): bool
+  {
     return empty($this->errors);
   }
 
@@ -53,6 +52,7 @@ class Brand
       } else {
         $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
         $brands[$this->id] = $this->name;
+
         $data = implode(PHP_EOL, $brands);
         file_put_contents(self::DB_PATH, $data . PHP_EOL);
       }
@@ -79,14 +79,11 @@ class Brand
   }
 
   public static function all(): array
-{
+  {
     $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
-    $lineNumbers = array_keys($brands);
-    
-    return array_map(function ($lineNumber, $brandName) {
-        return new Brand($brandName);
-    }, $lineNumbers, $brands);
-}
+    return array_map(fn ($lineNumber, $brandName) => new Brand(id: $lineNumber, name: $brandName), array_keys($brands), $brands);
+  }
+
 
   public static function findByID(int $id): Brand|null
   {
