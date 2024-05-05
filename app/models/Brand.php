@@ -50,9 +50,8 @@ class Brand
         $this->id = count(file(self::DB_PATH));
         file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
       } else {
-        $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $brands = file(self::DB_PATH,FILE_IGNORE_NEW_LINES);
         $brands[$this->id] = $this->name;
-
         $data = implode(PHP_EOL, $brands);
         file_put_contents(self::DB_PATH, $data . PHP_EOL);
       }
@@ -63,7 +62,7 @@ class Brand
 
   public function newRecord(): bool
   {
-    return $this->id === -1;
+    return $this->id == -1;
   }
 
   private function isValid(): bool

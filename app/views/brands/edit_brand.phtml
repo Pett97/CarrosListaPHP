@@ -4,7 +4,7 @@
       <div class="row">
         <div class="input-field col s12 m12 l12">
           <input type="hidden" name="_method" value="PUT">
-          <input type="text" readonly name="idBrandForEdit" value=" ID.<?=$brand->getID()?>">
+          <input type="text" readonly name="idBrandForEdit" value="<?=$brand->getID()?>">
           <input placeholder="Novo Nome" id="newNameBrand" type="text" class="validate" name="newNameBrand" required>
           <label for="newNameBrand">Editar Nome  Marca <?=$brand->getName()?></label>
         </div>
