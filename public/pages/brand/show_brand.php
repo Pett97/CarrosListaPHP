@@ -3,11 +3,18 @@
 require "/var/www/app/models/Brand.php";
 
 
-$brandName = $_GET["brand_name"];
+$brandID = $_GET["brand_id"];
+$brandID =(intval($brandID));
+$brand = Brand::findByID($brandID);
 
-$brand = Brand::findByName($brandName);
+if ($brand !== null) {
+    $teste = $brand->getName();
+    $title = "Detalhes $teste";
+} else {
+    $title = "Detalhes da Marca Desconhecida";
+}
+//$brandName = trim(strtoupper($brandName));
 
-$title = "Detalhes $brandName";
 
 $view = "/var/www/app/views/brands/detail_brand.phtml";
 

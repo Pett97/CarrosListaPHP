@@ -10,6 +10,7 @@ if ($method !== "POST") {
 
 
 $brandName = trim($_POST["brand_name"]);
+$brandName = strtoupper($brandName);
 $brand = new Brand(name:$brandName);
 $erros = [];
 

@@ -51,6 +51,13 @@ class Car
     return false;
   }
 
+  public function update(string $newName):bool{
+    $cars = self::all();
+
+
+
+  }
+
   private function isValid(): bool
   {
 
@@ -83,4 +90,6 @@ class Car
     }
     return null;
   }
+
+  
 }

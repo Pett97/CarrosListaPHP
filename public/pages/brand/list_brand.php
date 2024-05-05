@@ -1,6 +1,5 @@
 <?php
 
-require "/var/www/core/errors/handler.php";
 
 require "/var/www/app/models/Brand.php";
 

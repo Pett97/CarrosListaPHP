@@ -1,9 +1,6 @@
 <?php
-require_once "/var/www/core/errors/handler.php";
-use core\errors\ErrorsHandler;
 
-
-$handler = new ErrorsHandler;
+require "/var/www/app/models/Brand.php";
 $title = "Nova Marca";
 $view = "/var/www/app/views/brands/new_brand.phtml";
 

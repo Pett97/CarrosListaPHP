@@ -2,8 +2,9 @@
 class Brand
 {
   const DB_PATH  = '/var/www/database/brand.txt';
-  private int $id  = 0;
-  private string $name = "";
+  
+  private int $id;
+  public string $name = "";
 
 
   private array $errors = [];
@@ -11,23 +12,12 @@ class Brand
   public function __construct(string $name)
   {
     $this->id = -1;
-    $this->name = strtoupper($name);
+    $this->name = trim(strtoupper($name));
   }
 
-  public function setName(string $newName): void
+  public function setId(int $id): void
   {
-    $this->name = strtoupper($newName);
-  }
-
-  public function getName(): string
-  {
-    return $this->name;
-  }
-
-
-  public function setID(int $newID)
-  {
-    $this->id = $newID;
+    $this->id = $id;
   }
 
   public function getID(): int
@@ -35,20 +25,45 @@ class Brand
     return $this->id;
   }
 
+  public function setName(string $newName): void
+  {
+    $this->name = trim(strtoupper($newName));
+  }
+
+  public function getName(): string
+  {
+    return $this->name;
+  }
 
   private function addErro(string $text)
   {
     $this->errors[] = $text;
   }
 
+  public function hasErrors():bool{
+    return empty($this->errors);
+  }
+
   public function save(): bool
   {
     if ($this->isValid()) {
-      $this->id = count(file(self::DB_PATH))+1;
-      file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+      if ($this->newRecord()) {
+        $this->id = count(file(self::DB_PATH));
+        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+      } else {
+        $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $brands[$this->id] = $this->name;
+        $data = implode(PHP_EOL, $brands);
+        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+      }
       return true;
     }
     return false;
+  }
+
+  public function newRecord(): bool
+  {
+    return $this->id === -1;
   }
 
   private function isValid(): bool
@@ -63,23 +78,23 @@ class Brand
     return empty($this->errors);
   }
 
-  public static function all():array{
-    $brands = file(self::DB_PATH,FILE_IGNORE_NEW_LINES);
+  public static function all(): array
+{
+    $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    $lineNumbers = array_keys($brands);
+    
+    return array_map(function ($lineNumber, $brandName) {
+        return new Brand($brandName);
+    }, $lineNumbers, $brands);
+}
 
-    return array_map(function($brandName){
-      return new Brand(name:$brandName);
-    },array_keys($brands),$brands);
-  }
-
-  public static function findByName(string $name):Brand|null{
-    $name = strtoupper($name);
-
+  public static function findByID(int $id): Brand|null
+  {
     $brands = self::all();
-
-    foreach($brands as $brand){
-        if($brand->getName() === $name){
-          return $brand;
-        }
+    foreach ($brands as $brand) {
+      if ($brand->getId() === $id) {
+        return $brand;
+      }
     }
     return null;
   }
