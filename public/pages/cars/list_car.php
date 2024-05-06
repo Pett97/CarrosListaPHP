@@ -1,10 +1,6 @@
 <?php
-require "/var/www/app/models/Car.php";
+require "/var/www/app/controllers/CarsController.php";
 
-$cars = Car::all();
+$controller = new CarsController();
+$controller->index();
 
-$title = "Lista De Carros";
-
-$view = "/var/www/app/views/cars/list_car.phtml";
-
-require "/var/www/app/views/layouts/application.phtml";

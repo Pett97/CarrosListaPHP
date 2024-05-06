@@ -7,7 +7,7 @@ class Car
 
   private array $errors = [];
 
-  public function __construct(string $name, private int $id = -1)
+  public function __construct(string $name = "", private int $id = -1)
   {
     $this->name = strtoupper($name);
   }
