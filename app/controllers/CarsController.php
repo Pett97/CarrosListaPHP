@@ -9,7 +9,11 @@ class CarsController
         $cars = Car::all();
         $title = "Lista De Carros";
 
-        $this->render("list_car", compact("cars", "title"));
+        if ($this->isJsonRequest()) {
+            $this->renderJson('index', compact('cars', 'title'));
+        } else {
+            $this->render('index', compact('cars', 'title'));
+        }
     }
 
     public function show()
@@ -106,5 +110,21 @@ class CarsController
         extract($data);
         $view = "/var/www/app/views/cars/" . $view . ".phtml";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
+    }
+
+    private function renderJSON($view, $data = [])
+    {
+        extract($data);
+        $view = "/var/www/app/views/brands/" . $view . "json.php";
+        $json = [];
+        include "/var/www/app/views/brands/cars.json.php";
+        header("Content-Type: application/json; charset=utf-8");
+        echo json_encode($json);
+        return;
+    }
+
+    private function isJsonRequest(): bool
+    {
+        return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
     }
 }

@@ -8,8 +8,11 @@ class BrandsController
     {
         $brands = Brand::all();
         $title = "Lista De Marcas";
-
-        $this->render("list_brand", compact("brands", "title"));
+        if ($this->isJsonRequest()) {
+            $this->renderJson('index', compact('brands', 'title'));
+        } else {
+            $this->render('index', compact('brands', 'title'));
+        }
     }
 
     public function new()
@@ -91,7 +94,6 @@ class BrandsController
         $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
 
         if ($method !== "DELETE") {
-            
         } else {
             $id = intval($_POST["id_delete"]);
             $brand = Brand::findByID($id);
@@ -109,7 +111,23 @@ class BrandsController
     private function render($view, $data = [])
     {
         extract($data);
-        $view = "/var/www/app/views/brands/" . $view . ".phtml";
+        $view = "/var/www/app/views/brands/" . $view . ".php";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
+    }
+
+    private function renderJSON($view, $data = [])
+    {
+        extract($data);
+        $view = "/var/www/app/views/brands/" . $view . "json.php";
+        $json = [];
+        include "/var/www/app/views/brands/brands.json.php";
+        header("Content-Type: application/json; charset=utf-8");
+        echo json_encode($json);
+        return;
+    }
+
+    private function isJsonRequest(): bool
+    {
+        return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
     }
 }
