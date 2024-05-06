@@ -4,9 +4,9 @@
       <div class="row">
         <div class="input-field col s12 m12 l12">
           <input type="hidden" name="_method" value="PUT">
-          <input type="hidden" name="carEdit" value="<?=$carName?>">
-          <input placeholder="<?= $carName ?>" id="newCar" type="text" class="validate" name="newCar">
-          <label for="newCar">Nome Carro</label>
+          <input type="text" readonly name="idCarForEdit" value="<?=$car->getID()?>">
+          <input placeholder="Novo Nome" id="newNameCar" type="text" class="validate" name="newNameCar" required>
+          <label for="newNameCar">Novo nome Carrro <?=$car->getName()?></label>
         </div>
       </div>
       <button class="waves-effect waves-light btn blue" type="submit">Salvar</button>

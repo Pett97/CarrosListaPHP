@@ -1,11 +1,10 @@
 <?php
-define("DB_PATH", "../../../database/cars.txt");
+require "/var/www/app/models/Car.php";
 
-$cars = file(DB_PATH, FILE_IGNORE_NEW_LINES);
+$carID = intval($_GET['car_id']);
+$car = Car::findByID($carID);
 
-$carName = $_GET['car_name'];
-
-$title = "Editar $carName ";
+$title = "Editar {$car->getName()} ";
 $view = "/var/www/app/views/cars/edit_car.phtml";
 
 require "/var/www/app/views/layouts/application.phtml";

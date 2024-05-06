@@ -1,14 +1,14 @@
 <?php
-define("DB_PATH", "../../../database/brand.txt");
 
-$brands = file(DB_PATH, FILE_IGNORE_NEW_LINES);
 
-$brandName = $_GET["brand_name"];
+require "/var/www/app/models/Brand.php";
 
-$title = "Editar $brandName";
 
+
+$brandID = intval($_GET["brand_id"]);
+$brand = Brand::findByID($brandID);
+
+$title = "Editar {$brand->getName()}";
 $view = "/var/www/app/views/brands/edit_brand.phtml";
-
-
 
 require "/var/www/app/views/layouts/application.phtml";

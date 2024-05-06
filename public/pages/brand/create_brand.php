@@ -8,12 +8,15 @@ if ($method !== "POST") {
   header("Location: /pages/brand/list_brand.php");
 }
 
-$params = trim($_POST["brand_name"]);
-$brand = new Brand(name: $params);
 
-if ($brand->save()) {
+$brandName = trim($_POST["brand_name"]);
+$brandName = strtoupper($brandName);
+$brand = new Brand(name:$brandName);
+$erros = [];
+
+if($brand->save()){
   header("Location: /pages/brand/list_brand.php");
-} else {
-  $title = "Lista de Marcas";
+}else{
+  $title = "Nova Marca";
   $view = "/var/www/app/views/brands/list_brand.phtml";
 }

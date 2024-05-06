@@ -1,11 +1,20 @@
 <?php
-define("DB_PATH", "../../../database/brand.txt");
 
-$brands = file(DB_PATH, FILE_IGNORE_NEW_LINES);
+require "/var/www/app/models/Brand.php";
 
-$brandName = $_GET["brand_name"];
 
-$title = "Detalhes $brandName";
+$brandID = $_GET["brand_id"];
+$brandID =(intval($brandID));
+$brand = Brand::findByID($brandID);
+
+if ($brand !== null) {
+    $teste = $brand->getName();
+    $title = "Detalhes $teste";
+} else {
+    $title = "Detalhes da Marca Desconhecida";
+}
+//$brandName = trim(strtoupper($brandName));
+
 
 $view = "/var/www/app/views/brands/detail_brand.phtml";
 

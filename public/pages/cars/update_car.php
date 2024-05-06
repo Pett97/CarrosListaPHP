@@ -1,5 +1,7 @@
 <?php
 
+require "/var/www/app/models/Car.php";
+
 $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
 
 if ($method !== "PUT") {
@@ -7,34 +9,20 @@ if ($method !== "PUT") {
   exit;
 }
 
-$carName = trim($_POST["carEdit"]);
-$newName = trim($_POST["newCar"]);
+$id = intval($_POST["idCarForEdit"]);
 
-$erros = [];
+$car = Car::findByID($id);
 
-if (empty($newName)) {
-  $erros[$newName] = "nome do carro não pode ser vazio";
-}
+$newCarName = trim($_POST["newNameCar"]);
 
-if (empty($erros)) {
-  define('DB_PATH', '/var/www/database/cars.txt');
-
-  $cars = file(DB_PATH, FILE_IGNORE_NEW_LINES);
-  $indexes = array_keys($cars, $carName);
-
-  foreach ($indexes as $index) {
-    $cars[$index] = $newName;
-  }
-
-  $updateCars = implode(PHP_EOL, $cars);
-  file_put_contents(DB_PATH, $updateCars);
-
+if($car !==null){
+  $car->setName($newCarName);
+  $car->save();
   header("Location: /pages/cars/list_car.php");
-  exit;
-} else {
-  $title = "Editar $carName ";
-  $view = "/var/www/app/views/cars/edit_car.phtml";
-
-  require "/var/www/app/views/layouts/application.phtml";
 }
+
+$title = "Editar {$car->getName()} ";
+$view = "/var/www/app/views/cars/edit_car.phtml";
+
+require "/var/www/app/views/layouts/application.phtml";
 ?>
