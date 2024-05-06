@@ -1,10 +1,7 @@
+
 <?php
-require "/var/www/app/models/Car.php";
 
-$carID = intval($_GET['car_id']);
-$car = Car::findByID($carID);
+require "/var/www/app/controllers/CarsController.php";
 
-$title = "Editar {$car->getName()} ";
-$view = "/var/www/app/views/cars/edit_car.phtml";
-
-require "/var/www/app/views/layouts/application.phtml";
+$controller = new CarsController();
+$controller->edit();
