@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Models;
+
 class Car
 {
   const DB_PATH  = '/var/www/database/cars.txt';

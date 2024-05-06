@@ -14,6 +14,12 @@ services:
    image: php:8.3.4-fpm
    volumes:
    - .:/var/www
+  
+  composer:
+   image: composer:2.7.2
+   user: 1000:1000
+   volumes:
+      - .:/app
    networks:
    - carro-network
 networks:

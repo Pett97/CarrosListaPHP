@@ -1,5 +1,8 @@
 <?php
-require "/var/www/app/models/Brand.php";
+
+namespace App\Controllers;
+
+use App\Models\Brand;
 
 class BrandsController
 {

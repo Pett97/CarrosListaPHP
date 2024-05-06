@@ -1,5 +1,8 @@
 <?php
-require "/var/www/app/models/Car.php";
+
+namespace App\Controllers;
+
+use App\Models\Car;
 
 class CarsController
 {
