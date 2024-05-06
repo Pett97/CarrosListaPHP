@@ -1,14 +1,8 @@
 <?php
 
+require "/var/www/app/controllers/BrandsController.php";
 
-require "/var/www/app/models/Brand.php";
+$controller = new BrandsController();
+$controller->edit();
 
 
-
-$brandID = intval($_GET["brand_id"]);
-$brand = Brand::findByID($brandID);
-
-$title = "Editar {$brand->getName()}";
-$view = "/var/www/app/views/brands/edit_brand.phtml";
-
-require "/var/www/app/views/layouts/application.phtml";
