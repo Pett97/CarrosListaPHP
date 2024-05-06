@@ -10,7 +10,7 @@
         <div class="right">
           <form action="delete_brand.php" method="POST">
             <input type="hidden" name="_method" value="DELETE">
-            <input type="hidden" name="brand_delete" value="<?= $brand->getID() ?>">
+            <input type="hidden" name="id_delete" value="<?= $brand->getID() ?>">
             <button class="waves-effect waves-light btn-small red" type="submit"><i class="material-icons center">delete</i></button>
           </form>
         </div>

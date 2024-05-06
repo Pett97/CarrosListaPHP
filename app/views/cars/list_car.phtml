@@ -13,7 +13,7 @@
             <div class="right">
               <form action="delete_car.php" method="POST">
                 <input type="hidden" name="_method" value="DELETE">
-                <input type="hidden" name="car_delete" value="<?= $index ?>">
+                <input type="hidden" name="id_delete" value="<?= $car->getID()?>">
                 <button class="waves-effect waves-light btn-small red" type="submit"><i class="material-icons center">delete</i></button>
               </form>
             </div>

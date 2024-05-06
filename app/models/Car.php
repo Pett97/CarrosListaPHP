@@ -88,4 +88,12 @@ class Car
   {
     return $this->id == -1;
   }
+
+  public function destroy(): void
+  {
+    $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    unset($cars[$this->id]);
+    $data = implode(PHP_EOL, $cars);
+    file_put_contents(self::DB_PATH, $data . PHP_EOL);
+  }
 }

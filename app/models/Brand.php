@@ -94,4 +94,12 @@ class Brand
     }
     return null;
   }
+
+  public function destroy(): void
+  {
+    $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    unset($brands[$this->id]);
+    $data = implode(PHP_EOL, $brands);
+    file_put_contents(self::DB_PATH, $data . PHP_EOL);
+  }
 }
