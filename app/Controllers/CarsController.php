@@ -15,7 +15,7 @@ class CarsController
         if ($this->isJsonRequest()) {
             $this->renderJson('index', compact('cars', 'title'));
         } else {
-            $this->render('index', compact('cars', 'title'));
+            $this->render('list_car', compact('cars', 'title'));
         }
     }
 
@@ -82,11 +82,8 @@ class CarsController
         if ($car !== null) {
             $car->setName($newCarName);
             $car->save();
-            
+            $this->redirectTo("/pages/cars/list_car.php");
         }
-
-        $title = "Editar Nome Carro ";
-        $this->render("new_car", compact("edit_car", "title"));
     }
 
     public function delete()
@@ -99,6 +96,7 @@ class CarsController
             $id = intval($_POST["id_delete"]);
             $car = Car::findByID($id);
             $car->destroy();
+            $this->redirectTo("/pages/cars/list_car.php");
         }
     }
 

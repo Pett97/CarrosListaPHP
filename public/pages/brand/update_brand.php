@@ -1,6 +1,8 @@
 <?php
 
-require "/var/www/app/controllers/BrandsController.php";
+require '/var/www/config/bootstrap.php';
+
+use App\Controllers\BrandsController;
 
 $controller = new BrandsController();
 $controller->update();
