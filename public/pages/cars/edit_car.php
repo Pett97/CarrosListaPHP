@@ -1,7 +1,9 @@
 
 <?php
 
-require "/var/www/app/controllers/CarsController.php";
+require '/var/www/config/bootstrap.php';
+
+use App\Controllers\CarsController;
 
 $controller = new CarsController();
 $controller->edit();

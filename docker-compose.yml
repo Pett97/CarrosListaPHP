@@ -5,20 +5,29 @@ services:
     volumes:
       - .:/var/www
       - ./server/nginx.conf:/etc/nginx/conf.d/default.conf
-
     ports:
       - 80:80
     networks:
-     - carro-network
+      - carro-network
+
   php:
-   image: php:8.3.4-fpm
-   volumes:
-   - .:/var/www
-   networks:
-   - carro-network
+    image: php:8.3.4-fpm
+    volumes:
+      - .:/var/www
+    networks:
+      - carro-network
+  
+  composer:
+    image: composer:2.7.2
+    user: 1000:1000
+    volumes:
+      - .:/app
+    networks:
+      - carro-network
+
 networks:
- carro-network:
-  driver: bridge
+  carro-network:
+    driver: bridge
 
 
 

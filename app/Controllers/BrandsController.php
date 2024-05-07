@@ -1,5 +1,8 @@
 <?php
-require "/var/www/app/models/Brand.php";
+
+namespace App\Controllers;
+
+use App\Models\Brand;
 
 class BrandsController
 {
@@ -9,9 +12,9 @@ class BrandsController
         $brands = Brand::all();
         $title = "Lista De Marcas";
         if ($this->isJsonRequest()) {
-            $this->renderJson('index', compact('brands', 'title'));
+            $this->renderJson('list_brand', compact('brands', 'title'));
         } else {
-            $this->render('index', compact('brands', 'title'));
+            $this->render('list_brand', compact('brands', 'title'));
         }
     }
 
@@ -111,7 +114,7 @@ class BrandsController
     private function render($view, $data = [])
     {
         extract($data);
-        $view = "/var/www/app/views/brands/" . $view . ".php";
+        $view = "/var/www/app/views/brands/".$view.".phtml";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
     }
 

@@ -1,4 +1,7 @@
 <?php
+
+namespace App\Models;
+
 class Brand
 {
   const DB_PATH  = '/var/www/database/brand.txt';
