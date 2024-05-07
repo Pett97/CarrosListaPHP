@@ -66,7 +66,7 @@ class Car
   {
     if ($this->isValid()) {
       if ($this->newRecord()) {
-        $this->id = count(file(self::DB_PATH()));
+        $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
         file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
       } else {
         $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
@@ -109,8 +109,7 @@ class Car
     return empty($this->errors);
   }
 
-  private static function DB_PATH()
-  {
-    return "/var/www/database/" . $_ENV["DB_CAR"];
+  private static function DB_PATH(){
+      return "/var/www/database/".$_ENV["DB_CAR"];
   }
 }
