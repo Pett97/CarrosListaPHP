@@ -2,10 +2,11 @@
     "name": "root/app",
     "autoload": {
         "psr-4": {
-            "App\\": "app/"
+            "App\\": "app/",
+            "Tests\\": "tests/"
         }
     },
-    "require": {
-        "vendor/package": "^1.0"
+    "require-dev": {
+        "phpunit/phpunit": "^11.1"
     }
 }
