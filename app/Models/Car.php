@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Car
 {
-  const DB_PATH  = '/var/www/database/cars.txt';
+  //const DB_PATH  = '/var/www/database/cars.txt';
   private string $name = "";
 
   private array $errors = [];
@@ -35,25 +35,10 @@ class Car
     return $this->id;
   }
 
-
-  private function addErro(string $text)
+  public function hasErrors(): bool
   {
-    $this->errors[] = $text;
-  }
-
-  private function isValid(): bool
-  {
-    $this->errors = [];
-
-    if (empty($this->getName())) {
-      $this->addErro("Nome do Carro Não pode ser Vazio");
-    }
-    return empty($this->errors);
-  }
-
-  public function hasErrors():bool{
     $this->isValid();
-    if(empty($this->errors)){
+    if (empty($this->errors)) {
       return false;
     }
     return true;
@@ -61,7 +46,7 @@ class Car
 
   public static function all(): array
   {
-    $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
     return array_map(fn ($lineNumber, $carName) => new Car(id: $lineNumber, name: $carName), array_keys($cars), $cars);
   }
 
@@ -81,13 +66,13 @@ class Car
   {
     if ($this->isValid()) {
       if ($this->newRecord()) {
-        $this->id = count(file(self::DB_PATH));
-        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+        $this->id = count(file(self::DB_PATH()));
+        file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
       } else {
-        $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
         $cars[$this->id] = $this->name;
         $data = implode(PHP_EOL, $cars);
-        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
       }
       return true;
     }
@@ -101,9 +86,31 @@ class Car
 
   public function destroy(): void
   {
-    $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
     unset($cars[$this->id]);
     $data = implode(PHP_EOL, $cars);
-    file_put_contents(self::DB_PATH, $data . PHP_EOL);
+    file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+  }
+
+  //private 
+
+  private function addErro(string $text)
+  {
+    $this->errors[] = $text;
+  }
+
+  private function isValid(): bool
+  {
+    $this->errors = [];
+
+    if (empty($this->getName())) {
+      $this->addErro("Nome do Carro Não pode ser Vazio");
+    }
+    return empty($this->errors);
+  }
+
+  private static function DB_PATH()
+  {
+    return "/var/www/database/" . $_ENV["DB_CAR"];
   }
 }
