@@ -51,6 +51,14 @@ class Car
     return empty($this->errors);
   }
 
+  public function hasErrors():bool{
+    $this->isValid();
+    if(empty($this->errors)){
+      return false;
+    }
+    return true;
+  }
+
   public static function all(): array
   {
     $cars = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
