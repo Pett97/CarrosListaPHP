@@ -110,6 +110,6 @@ class Car
   }
 
   private static function DB_PATH(){
-      return "/var/www/database/".$_ENV["DB_CAR"];
+      return DATABASE_PATH.$_ENV["DB_CAR"];
   }
 }

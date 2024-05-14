@@ -4,7 +4,7 @@ namespace App\Models;
 
 class Brand
 {
-  const DB_PATH  = '/var/www/database/brand.txt';
+  //const DB_PATH  = '/var/www/database/brand.txt';
 
   public string $name = "";
 
@@ -50,13 +50,13 @@ class Brand
   {
     if ($this->isValid()) {
       if ($this->newRecord()) {
-        $this->id = count(file(self::DB_PATH));
-        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+        $this->id = count(file(self::DB_PATH()));
+        file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
       } else {
-        $brands = file(self::DB_PATH,FILE_IGNORE_NEW_LINES);
+        $brands = file(self::DB_PATH(),FILE_IGNORE_NEW_LINES);
         $brands[$this->id] = $this->name;
         $data = implode(PHP_EOL, $brands);
-        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
       }
       return true;
     }
@@ -82,7 +82,7 @@ class Brand
 
   public static function all(): array
   {
-    $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    $brands = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
     return array_map(fn ($lineNumber, $brandName) => new Brand(id: $lineNumber, name: $brandName), array_keys($brands), $brands);
   }
 
@@ -100,9 +100,13 @@ class Brand
 
   public function destroy(): void
   {
-    $brands = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+    $brands = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
     unset($brands[$this->id]);
     $data = implode(PHP_EOL, $brands);
-    file_put_contents(self::DB_PATH, $data . PHP_EOL);
+    file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+  }
+
+  private static function DB_PATH(){
+    return DATABASE_PATH.$_ENV["DB_BRAND"];
   }
 }
