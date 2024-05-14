@@ -6,3 +6,6 @@
 
 #igone log
 /log/*
+
+#ignore env
+.env
