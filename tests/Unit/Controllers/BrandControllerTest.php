@@ -8,10 +8,8 @@ use App\Controllers\BrandsController;
 use App\Models\Brand;
 use PHPUnit\Framework\TestCase;
 
-
 class BrandControllerTest extends TestCase
 {
-
     public function test_list_all_brands()
     {
         $brands[] = new Brand(name: "Marca Teste1");
