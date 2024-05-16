@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Core\Constants\Constants;
+
 class Car
 {
   //const DB_PATH  = '/var/www/database/cars.txt';
@@ -111,6 +113,6 @@ class Car
 
     private static function DB_PATH()
     {
-        return DATABASE_PATH . $_ENV["DB_CAR"];
+        return Constants::databasePath(). $_ENV["DB_CAR"];
     }
 }
