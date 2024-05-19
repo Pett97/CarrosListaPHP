@@ -10,7 +10,9 @@ class Brand
 
     public string $name = "";
 
-
+    /**
+     * @var array<string, string>
+    */
     private array $errors = [];
 
     public function __construct(string $name = "", private int $id = -1)
@@ -38,7 +40,7 @@ class Brand
         return $this->name;
     }
 
-    private function addErro(string $text)
+    private function addErro(string $text):void
     {
         $this->errors[] = $text;
     }
@@ -81,7 +83,9 @@ class Brand
 
         return empty($this->errors);
     }
-
+    /**
+     * @return array<int, Brand>
+    */
     public static function all(): array
     {
         $brands = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
@@ -109,7 +113,7 @@ class Brand
         file_put_contents(self::dbPath(), $data . PHP_EOL);
     }
 
-    private static function dbPath()
+    private static function dbPath():string
     {
         return Constants::databasePath() . $_ENV["DB_BRAND"];
     }
