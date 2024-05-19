@@ -48,8 +48,9 @@ class Car
 
     public static function all(): array
     {
-        $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
-        return array_map(fn ($lineNumber, $carName) => new Car(id: $lineNumber, name: $carName), array_keys($cars), $cars);
+        $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
+        return array_map(fn
+        ($lineNumber, $carName) => new Car(id: $lineNumber, name: $carName), array_keys($cars), $cars);
     }
 
     public static function findByID(int $id): Car|null
@@ -68,13 +69,13 @@ class Car
     {
         if ($this->isValid()) {
             if ($this->newRecord()) {
-                $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
-                file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
+                $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
+                file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
             } else {
-                $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+                $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
                 $cars[$this->id] = $this->name;
                 $data = implode(PHP_EOL, $cars);
-                file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+                file_put_contents(self::dbPath(), $data . PHP_EOL);
             }
             return true;
         }
@@ -88,10 +89,10 @@ class Car
 
     public function destroy(): void
     {
-        $cars = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+        $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
         unset($cars[$this->id]);
         $data = implode(PHP_EOL, $cars);
-        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+        file_put_contents(self::dbPath(), $data . PHP_EOL);
     }
 
   //private
@@ -111,7 +112,7 @@ class Car
         return empty($this->errors);
     }
 
-    private static function DB_PATH()
+    private static function dbPath()
     {
         return Constants::databasePath()->join($_ENV["DB_CAR"]);
     }

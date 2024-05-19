@@ -5,7 +5,7 @@ namespace Tests;
 use Core\Constants\Constants;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 
-require dirname(__DIR__) . "/core/constants/general.php";
+//require dirname(__DIR__) . "/core/constants/general.php";
 //require ROOT_PATH . "/core/debug/functions.php";
 
 class TestCase extends FrameworkTestCase
