@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Errors;
+namespace Core\Erros;
 
 class ErrorsHandler
 {
