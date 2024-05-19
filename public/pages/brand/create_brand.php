@@ -6,5 +6,3 @@ use App\Controllers\BrandsController;
 
 $controller = new BrandsController();
 $controller->create();
-
-

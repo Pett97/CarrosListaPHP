@@ -7,13 +7,15 @@ use PHPUnit\Framework\TestCase;
 
 class CarTest extends TestCase
 {
-    public function test_can_set_name(){
+    public function test_can_set_name()
+    {
         $car = new Car(name:"uno");
 
-        $this->assertEquals("UNO",$car->getName());
+        $this->assertEquals("UNO", $car->getName());
     }
 
-    public function test_dont_create_without_name(){
+    public function test_dont_create_without_name()
+    {
         $car = new Car(name:'');
 
         $hasErrors = $car->hasErrors();

@@ -114,7 +114,7 @@ class BrandsController
     private function render($view, $data = [])
     {
         extract($data);
-        $view = "/var/www/app/views/brands/".$view.".phtml";
+        $view = "/var/www/app/views/brands/" . $view . ".phtml";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
     }
 

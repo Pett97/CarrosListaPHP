@@ -5,5 +5,3 @@ use App\Controllers\CarsController;
 
 $controller = new CarsController();
 $controller->new();
-
-

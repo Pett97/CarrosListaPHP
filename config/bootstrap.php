@@ -1,8 +1,10 @@
 <?php
 
-require_once __DIR__ . "/../core/constants/general.php";
-
-
-require "/var/www/core/env/env.php";
-
 require __DIR__ . '/../vendor/autoload.php';
+use Core\Constants\Constants;
+use Core\Env\EnvLoader;
+use Core\Erros\ErrorsHandler;
+
+Constants::rootPath();
+ErrorsHandler::init();
+EnvLoader::init();

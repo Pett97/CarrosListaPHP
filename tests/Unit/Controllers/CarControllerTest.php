@@ -2,7 +2,8 @@
 
 namespace Tests\Unit\Controllers;
 
-require "/var/www/core/constants/general.php";
+//require "/var/www/core/constants/Constants.php";
+
 
 use App\Controllers\CarsController;
 use App\Models\Car;
@@ -10,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 
 class CarControllerTest extends TestCase
 {
-
     public function test_list_all_cars()
     {
         $cars[] = new Car(name: "Carro teste1");
