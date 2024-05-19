@@ -113,6 +113,6 @@ class Car
 
     private static function DB_PATH()
     {
-        return Constants::databasePath(). $_ENV["DB_CAR"];
+        return Constants::databasePath()->join($_ENV["DB_CAR"]);
     }
 }

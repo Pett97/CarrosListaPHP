@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use Core\Constants\Constants;
 
 class Brand
 {
@@ -108,6 +109,6 @@ class Brand
 
     private static function DB_PATH()
     {
-        return DATABASE_PATH . $_ENV["DB_BRAND"];
+        return Constants::databasePath().$_ENV["DB_BRAND"];
     }
 }
