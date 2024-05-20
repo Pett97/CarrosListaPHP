@@ -7,14 +7,14 @@ use PHPUnit\Framework\TestCase;
 
 class BrandTest extends TestCase
 {
-    public function test_can_set_name()
+    public function test_can_set_name():void
     {
         $brand = new Brand(name:"fOrD");
 
         $this->assertEquals("FORD", $brand->getName());
     }
 
-    public function test_dont_create_without_name()
+    public function test_dont_create_without_name():void
     {
         $brand = new Brand(name:'');
 
