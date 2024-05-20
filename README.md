@@ -17,6 +17,11 @@
 ```
 $ git clone https://github.com/Pett97/CarrosListaPHP.git
 $ cd CarrosListaPHP
+docker composer up 
+
+OR
+
+./run up
 ```
 
 #### Define the env variables
@@ -38,6 +43,8 @@ $ chmod 777 ./database/brand.txt
 
 ```
 $ docker compose run --rm composer install
+
+./run composer
 ```
 
 #### Up the containers
@@ -45,12 +52,22 @@ $ docker compose run --rm composer install
 ```
 $ docker compose up -d
 ```
-ou
+or
+./run up
 
 
 #### Run the tests
 
 ```
 $ docker compose run --rm php ./vendor/bin/phpunit tests --color
+or
+./run test
+```
+
+#### Linters
+```
+./run phpcs
+./run phpcbf
+./run phpstan
 ```
 
