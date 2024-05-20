@@ -9,6 +9,9 @@ class Car
   //const DB_PATH  = '/var/www/database/cars.txt';
     private string $name = "";
 
+    /**
+     * @var array<string, string>
+    */
     private array $errors = [];
 
     public function __construct(string $name = "", private int $id = -1)
@@ -27,7 +30,7 @@ class Car
     }
 
 
-    public function setID(int $newID)
+    public function setID(int $newID):void
     {
         $this->id = $newID;
     }
@@ -45,7 +48,9 @@ class Car
         }
         return true;
     }
-
+    /**
+     * @return array<int, Car>
+    */
     public static function all(): array
     {
         $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
@@ -97,7 +102,7 @@ class Car
 
   //private
 
-    private function addErro(string $text)
+    private function addErro(string $text):void
     {
         $this->errors[] = $text;
     }
@@ -112,7 +117,7 @@ class Car
         return empty($this->errors);
     }
 
-    private static function dbPath()
+    private static function dbPath(): string
     {
         return Constants::databasePath()->join($_ENV["DB_CAR"]);
     }

@@ -4,12 +4,16 @@ namespace Core\Constants;
 
 class StringPath
 {
-    public function __construct(private string $path)
-    {
+    public function __construct(
+        private string $path
+    ) {
     }
-    public function join(string $path)
+
+    public function join(string $path): StringPath
     {
+
         $this->path .= $path;
+
         return $this;
     }
 

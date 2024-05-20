@@ -4,7 +4,7 @@
 
 class Debugger
 {
-    public static function dd()
+    public static function dd():void
     {
             var_dump(func_get_args());
             exit;
