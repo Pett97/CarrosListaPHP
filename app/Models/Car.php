@@ -117,7 +117,7 @@ class Car
         return empty($this->errors);
     }
 
-    private static function dbPath():string
+    private static function dbPath(): string
     {
         return Constants::databasePath()->join($_ENV["DB_CAR"]);
     }
