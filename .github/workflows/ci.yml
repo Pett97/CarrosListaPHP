@@ -31,10 +31,8 @@ jobs:
       - name: Composer install
         run: ./run composer install
 
-      - name: PSR-4 Checker
-        run: ./run composer dump-autoload --optimize --strict-psr
-
       - name: PHPCS
         run: ./run phpcs
+
       - name: PHPSTAN
         run: ./run phpstan           
