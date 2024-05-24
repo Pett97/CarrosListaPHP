@@ -54,14 +54,6 @@ function phpstan {
    docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
 }
 
-function installPhpStan{
-    docker compose run  composer require --dev phpstan/phpstan
-
-}
-
-function dumpAutoLoad{
-    docker compose run --rm composer dump-autoload
-}
 
 function git:clean:branchs {
   git branch | grep -v '\*\|master\|main\|develop\|production' | xargs -n 1 git branch -D
