@@ -30,7 +30,7 @@ class Car
     }
 
 
-    public function setID(int $newID):void
+    public function setID(int $newID): void
     {
         $this->id = $newID;
     }
@@ -102,7 +102,7 @@ class Car
 
   //private
 
-    private function addErro(string $text):void
+    private function addErro(string $text): void
     {
         $this->errors[] = $text;
     }

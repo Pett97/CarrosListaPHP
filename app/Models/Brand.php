@@ -40,7 +40,7 @@ class Brand
         return $this->name;
     }
 
-    private function addErro(string $text):void
+    private function addErro(string $text): void
     {
         $this->errors[] = $text;
     }
@@ -113,7 +113,7 @@ class Brand
         file_put_contents(self::dbPath(), $data . PHP_EOL);
     }
 
-    private static function dbPath():string
+    private static function dbPath(): string
     {
         return Constants::databasePath() . $_ENV["DB_BRAND"];
     }

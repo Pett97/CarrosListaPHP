@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class CarControllerTest extends TestCase
 {
-    public function test_list_all_cars():void
+    public function test_list_all_cars(): void
     {
         $cars[] = new Car(name: "Carro teste1");
         $cars[] = new Car(name: "Carro teste2");

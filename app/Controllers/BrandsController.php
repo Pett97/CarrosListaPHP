@@ -7,7 +7,7 @@ use App\Models\Brand;
 class BrandsController
 {
     private string $layout = "application";
-    public function index():void
+    public function index(): void
     {
         $brands = Brand::all();
         $title = "Lista De Marcas";
@@ -18,7 +18,7 @@ class BrandsController
         }
     }
 
-    public function new():void
+    public function new(): void
     {
         $title = "Nova Marca";
         $brand = new Brand();
@@ -26,7 +26,7 @@ class BrandsController
         $view = "/var/www/app/views/brands/.phtml";
     }
 
-    public function create():void
+    public function create(): void
     {
         $method = $_SERVER["REQUEST_METHOD"];
 
@@ -46,7 +46,7 @@ class BrandsController
         }
     }
 
-    public function edit():void
+    public function edit(): void
     {
         $brandID = intval($_GET["brand_id"]);
         $brand = Brand::findByID($brandID);
@@ -56,7 +56,7 @@ class BrandsController
     }
 
 
-    public function show():void
+    public function show(): void
     {
         $brandID = $_GET["brand_id"];
         $brandID = (intval($brandID));
@@ -70,7 +70,7 @@ class BrandsController
         }
     }
 
-    public function update():void
+    public function update(): void
     {
         $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
 
@@ -92,7 +92,7 @@ class BrandsController
         $this->render("edit_brand", compact("brand", "title"));
     }
 
-    public function delete():void
+    public function delete(): void
     {
         $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
 
@@ -105,7 +105,7 @@ class BrandsController
         }
     }
 
-    private function redirectTo(string $path):void
+    private function redirectTo(string $path): void
     {
         header("Location:" . $path);
         exit;
@@ -113,7 +113,7 @@ class BrandsController
     /**
      * @param array<string, mixed> $data
     */
-    private function render(string $view, array $data = []):void
+    private function render(string $view, array $data = []): void
     {
         extract($data);
         $view = "/var/www/app/views/brands/" . $view . ".phtml";
@@ -123,7 +123,7 @@ class BrandsController
     /**
      * @param array<string, mixed> $data
     */
-    private function renderJSON(string $view, array $data = []):void
+    private function renderJSON(string $view, array $data = []): void
     {
         extract($data);
         $view = "/var/www/app/views/brands/" . $view . "json.php";

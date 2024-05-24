@@ -2,15 +2,14 @@
 
 namespace Core\Constants;
 
-
 class Constants
 {
-    public static function rootPath():StringPath
+    public static function rootPath(): StringPath
     {
         return new StringPath(dirname(__DIR__));
     }
 
-    public static function databasePath():StringPath
+    public static function databasePath(): StringPath
     {
         return self::rootPath()->join("../../database/");
     }
