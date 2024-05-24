@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.head_commit.id }}
+          ref: ${{ github.event.pull_request.head.sha }}
     
       - name: Composer install
         run: composer install
