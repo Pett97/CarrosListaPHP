@@ -34,4 +34,4 @@ jobs:
       - name: PHPCS
         run: ./run phpcs
       - name: PHPSTAN
-        run: /run phpstan           
+        run: ./run phpstan           
