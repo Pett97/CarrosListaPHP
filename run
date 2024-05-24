@@ -50,8 +50,19 @@ function phpcbf {
 }
 
 function phpstan {
+   installPhpStan
+   dumpAutoLoad
    TEST_PATH="${@:-}"
    docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
+}
+
+function installPhpStan{
+    docker compose run composer require --dev phpstan/phpstan
+
+}
+
+function dumpAutoLoad{
+    docker compose run --rm composer dump-autoload
 }
 
 function git:clean:branchs {
