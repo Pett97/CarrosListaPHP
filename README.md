@@ -22,6 +22,13 @@ docker composer up
 OR
 
 ./run up
+
+```
+
+#### Need Create the folder logs/nginx with access.log and error.log
+
+```
+
 ```
 
 #### Define the env variables
