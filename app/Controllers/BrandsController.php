@@ -35,6 +35,7 @@ class BrandsController
         }
 
         $brandName = trim($_POST["brand_name"]);
+        //dd($brandName);
         $brandName = strtoupper($brandName);
         $brand = new Brand(name: $brandName);
 
