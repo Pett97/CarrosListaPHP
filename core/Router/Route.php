@@ -22,7 +22,7 @@ class Route
         return $this->uri;
     }
 
-    public function getController(): string{
+    public function getControllerName(): string{
         return $this->controllerName;
     }
 
@@ -41,6 +41,6 @@ class Route
     */ 
 
     public static function get(string $uri, $action){
-        Router::getInstance()->addRouter(new Route("GET",$uri,$action[0],$action[1]));
+        Router::getInstance()->addRoute(new Route("GET",$uri,$action[0],$action[1]));
     }
 }
