@@ -7,6 +7,14 @@ use Core\Router\Route;
 
 class Router
 {
+    private function __construct()
+    {
+    }
+
+    private function __clone()
+    {
+    }
+
     private static ?Router $instance = null;
     private array $routes = [];
 
@@ -25,23 +33,24 @@ class Router
     }
 
     public function dispatch(): object|bool
-    { {
+    {
+        {
             $method = $_REQUEST["_method"] ?? $_SERVER["REQUEST_METHOD"];
             $uri = $_SERVER["REQUEST_URI"];
 
-            foreach ($this->routes as $route) {
-                if ($route->match($method, $uri)) {
-                    $class = $route->getController();
-                    $action = $route->getActionName();
+        foreach ($this->routes as $route) {
+            if ($route->match($method, $uri)) {
+                $class = $route->getControllerName();
+                $action = $route->getActionName();
 
 
-                    $controller = new $class();
-                    $controller->$action();
+                $controller = new $class();
+                $controller->$action();
 
 
-                    return $controller;
-                }
+                return $controller;
             }
+        }
             return false;
         }
     }

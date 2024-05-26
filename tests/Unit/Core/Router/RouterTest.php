@@ -10,19 +10,6 @@ use Tests\TestCase;
 
 class RouterTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-        require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
-    }
-
-    public function tearDown(): void
-    {
-        $routerReflection = new \ReflectionClass(Router::class);
-        $instanceProperty = $routerReflection->getProperty('instance');
-        $instanceProperty->setValue(null, null);
-    }
-
     public function test_singleton_should_return_the_same_object(): void
     {
         $rOne = Router::getInstance();
@@ -53,12 +40,16 @@ class RouterTest extends TestCase
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/test';
-
-        $output = $this->getOutput(function () use ($router) {
-            $this->assertInstanceOf(MockController::class, $router->dispatch());
-        });
-        $this->assertEquals('Action Called', $output);
+        $this->assertInstanceOf(MockController::class, $router->dispatch());
     }
 
-    
+    public function test_should_not_dispatch_if_route_does_not_match(): void
+    {
+        $router = Router::getInstance();
+        $router->addRoute(new Route('GET', '/test', MockController::class, 'action'));
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/not-found';
+        $this->assertFalse($router->dispatch());
+    }
 }

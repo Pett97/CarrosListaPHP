@@ -42,7 +42,7 @@ class RouteTest extends TestCase
         $instanceProperty->setValue(null, $routerMock);
 
         Route::get('/test', ['TestController', 'test']);
-       
+
 
         // Restore the original instance
         $instanceProperty->setValue(null, $originalInstance);
@@ -63,6 +63,4 @@ class RouteTest extends TestCase
         $this->assertFalse($route->match('POST', '/'));
         $this->assertFalse($route->match('GET', '/test'));
     }
-
-    
 }
