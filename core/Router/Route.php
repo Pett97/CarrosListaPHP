@@ -6,12 +6,21 @@ use Core\Router\Router;
 
 class Route
 {
+    private string $name = "";
     public function __construct(
         private string $method,
         private string $uri,
         private string $controllerName,
         private string $actionName
     ) {
+    }
+
+    public function getName():string{
+        return $this->name;
+    }
+
+    public function name(string $newName):void{
+        $this->name = $newName;
     }
 
     public function getMethod(): string
@@ -48,8 +57,8 @@ class Route
 
 
 
-    public static function get(string $uri, $action): void
+    public static function get(string $uri, $action): Route
     {
-         Router::getInstance()->addRoute(new Route('GET', $uri, $action[0], $action[1]));
+         return Router::getInstance()->addRoute(new Route('GET', $uri, $action[0], $action[1]));
     }
 }

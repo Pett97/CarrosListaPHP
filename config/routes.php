@@ -4,8 +4,16 @@ use App\Controllers\CarsController;
 use App\Controllers\BrandsController;
 use Core\Router\Route;
 
-Route::get("/", [BrandsController::class,"index"]);
-Route::get("/pages/cars/list_car.php", [CarsController::class,"index"]);
-Route::get("/pages/cars/new_car.php", [CarsController::class,"new"]);
 
-Route::get("/pages/brand/list_brand.php", [BrandsController::class,"index"]);
+//Brands
+Route::get("/", [BrandsController::class,"index"])->name("root");
+Route::get("/brands/new", [BrandsController::class,"new"])->name("new_brand");
+
+
+
+//Cars
+Route::get("/cars", [CarsController::class,"index"])->name("cars");
+Route::get("/cars/new", [CarsController::class,"new"])->name("new_car");
+
+
+

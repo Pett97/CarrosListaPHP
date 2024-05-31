@@ -54,8 +54,13 @@ function phpstan {
    docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
 }
 
-function dumpAutoload(){
+function dumpAutoloadCS(){
     docker compose run --rm composer dump-autoloadcs
+
+}
+
+function dumpAutoload(){
+    docker compose run --rm composer dump-autoload
 }
 
 

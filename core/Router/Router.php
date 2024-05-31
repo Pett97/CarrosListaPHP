@@ -4,6 +4,7 @@ namespace Core\Router;
 
 use Core\Constants\Constants;
 use Core\Router\Route;
+use Exception;
 
 class Router
 {
@@ -18,9 +19,10 @@ class Router
     private static ?Router $instance = null;
     private array $routes = [];
 
-    public function addRoute(Route $route)
+    public function addRoute(Route $route):Route
     {
         $this->routes[] = $route;
+        return $route;
     }
 
     public static function getInstance(): Router
@@ -30,6 +32,15 @@ class Router
         }
 
         return self::$instance;
+    }
+
+    public function getRoutePathByName(string $name):string{
+        foreach($this->routes as $route){
+            if($route->getName() === $name){
+                return $route->getUri();
+            }
+        }
+        throw new Exception("Route with $name not found",500);
     }
 
     public function dispatch(): object|bool

@@ -2,30 +2,23 @@
 
 namespace Tests\Unit\Controllers;
 
-//require "/var/www/core/constants/Constants.php";
-
-
-use App\Controllers\CarsController;
 use App\Models\Car;
-use PHPUnit\Framework\TestCase;
+use App\Controllers\CarsController;
 
-class CarControllerTest extends TestCase
+class CarControllerTest extends ControllerTestCase
+
 {
-    public function test_list_all_cars(): void
+    public function test_list_all_problems(): void
     {
-        $cars[] = new Car(name: "Carro teste1");
-        $cars[] = new Car(name: "Carro teste2");
+        $cars[] = new Car(name: 'carro1');
+        $cars[] = new Car(name: 'carro2');
+
 
         foreach ($cars as $car) {
             $car->save();
         }
 
-
-        $controller =  new  CarsController();
-        ob_start();
-        $controller->index();
-        $response = ob_get_contents();
-        ob_end_clean();
+        $response = $this->get(action: 'index', controller: "App\Controllers\CarsController");
 
         foreach ($cars as $car) {
             $this->assertMatchesRegularExpression("/{$car->getName()}/", $response);
