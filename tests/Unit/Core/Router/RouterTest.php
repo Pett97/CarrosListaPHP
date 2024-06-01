@@ -6,10 +6,18 @@ use Core\Constants\Constants;
 use Core\Exceptions\HTTPException;
 use Core\Router\Route;
 use Core\Router\Router;
+use PHPUnit\TextUI\Configuration\Constant;
 use Tests\TestCase;
 
 class RouterTest extends TestCase
 {
+
+    public function setUp():void{
+        parent::setUp();
+        require_once Constants::rootPath()->join("/tests/Unit/Core/Http/header_mock.php");
+    }
+
+
     public function test_singleton_should_return_the_same_object(): void
     {
         $rOne = Router::getInstance();

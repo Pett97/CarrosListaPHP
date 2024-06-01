@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Brand;
+use Core\Http\Request;
 
 class BrandsController
 {
@@ -26,18 +27,10 @@ class BrandsController
         $view = "/var/www/app/views/brands/.phtml";
     }
 
-    public function create(): void
+    public function create(Request $request): void
     {
-        $method = $_SERVER["REQUEST_METHOD"];
-
-        if ($method !== "POST") {
-            $this->redirectTo("/pages/brand/list_brand.php");
-        }
-
-        $brandName = trim($_POST["brand_name"]);
-
-        $brandName = strtoupper($brandName);
-        $brand = new Brand(name: $brandName);
+        $params = $request->getParams();
+        $brand = new Brand(name: $params["brand_name"]);
 
         if ($brand->save()) {
             $this->redirectTo("/pages/brand/list_brand.php");
