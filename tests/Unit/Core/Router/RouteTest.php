@@ -99,13 +99,5 @@ class RouteTest extends TestCase
         $this->assertEquals("root", $route->getName());
     }
 
-    private function request(string $method, string $uri): Request
-    {
-        require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
-
-        $_SERVER['REQUEST_METHOD'] = $method;
-        $_SERVER['REQUEST_URI'] = $uri;
-        $_REQUEST = [];
-        return new Request();
-    }
+    
 }

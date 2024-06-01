@@ -18,7 +18,7 @@ class RequestTest extends TestCase
 
     public function tearDown(): void
     {
-    
+
         unset($_SERVER['REQUEST_METHOD']);
         unset($_SERVER['REQUEST_URI']);
         unset($_SERVER['HTTP_ACCEPT']);

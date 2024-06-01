@@ -61,12 +61,12 @@ class Route
      * @return Route
      */
 
-    public static function get(string $uri,  $action): Route
+    public static function get(string $uri, $action): Route
     {
         return Router::getInstance()->addRoute(new Route('GET', $uri, $action[0], $action[1]));
     }
 
-    /** 
+    /**
      * @param string  $uri
      * @param mixed[] $action
      * @return Route

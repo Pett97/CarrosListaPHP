@@ -9,7 +9,7 @@ function dd(): void
 }
 
 if (!function_exists("route")) {
-    function route(string $name):string
+    function route(string $name): string
     {
          return Router::getInstance()->getRoutePathByName($name);
     }
