@@ -4,11 +4,11 @@ namespace Tests\Unit\Controllers;
 
 //require "/var/www/core/constants/general.php";
 
-use App\Controllers\BrandsController;
-use App\Models\Brand;
-use PHPUnit\Framework\TestCase;
 
-class BrandControllerTest extends TestCase
+use App\Models\Brand;
+
+
+class BrandControllerTest extends ControllerTestCase
 {
     public function test_list_all_brands(): void
     {
@@ -19,14 +19,13 @@ class BrandControllerTest extends TestCase
             $brand->save();
         }
 
-        $controller = new BrandsController();
-        ob_start();
-        $controller->index();
-        $response = ob_get_contents();
-        ob_end_clean();
+        $response  = $this->get(action: "index", controller: "App\Controllers\BrandsController");
+
+
 
         foreach ($brands as $brand) {
             $this->assertMatchesRegularExpression("/{$brand->getName()}/", $response);
         }
+        
     }
 }

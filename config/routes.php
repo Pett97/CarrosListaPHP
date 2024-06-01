@@ -7,6 +7,7 @@ use Core\Router\Route;
 
 //Brands
 Route::get("/", [BrandsController::class,"index"])->name("root");
+Route::get("/brands", [BrandsController::class,"index"])->name("brands");
 Route::get("/brands/new", [BrandsController::class,"new"])->name("new_brand");
 
 

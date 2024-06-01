@@ -24,8 +24,6 @@ abstract class ControllerTestCase extends TestCase
         } catch (\Exception $e) {
             echo "Exception: " . $e->getMessage() . "\n";
             throw $e;
-        } finally {
-            ob_end_clean();
         }
     }
 }
