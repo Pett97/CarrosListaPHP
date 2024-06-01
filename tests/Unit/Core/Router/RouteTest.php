@@ -3,7 +3,6 @@
 namespace Tests\Unit\Core\Router;
 
 use Core\Constants\Constants;
-use Core\Http\Middleware\Middleware;
 use Core\Http\Request;
 use Core\Router\Route;
 use Core\Router\Router;
@@ -80,24 +79,34 @@ class RouteTest extends TestCase
     {
         $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
 
-        $this->assertTrue($route->match('GET', '/'));
+        $this->assertTrue($route->match($this->testRequest('GET', '/')));
+    }
+
+
+
+    public function test_name_should_set_the_name_of_the_route(): void
+    {
+        $route = new Route(method: "GET", uri: "/", controllerName: "MockController", actionName: "index");
+        $route->name("root");
+
+        $this->assertEquals("root", $route->getName());
     }
 
     public function test_match_should_return_false_if_method_and_uri_do_not_match(): void
     {
         $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
 
-        $this->assertFalse($route->match('POST', '/'));
-        $this->assertFalse($route->match('GET', '/test'));
+        $this->assertFalse($route->match($this->testRequest('POST', "asdasd")));
+        $this->assertFalse($route->match($this->testRequest("GET", "/test")));
     }
 
-    public function test_name_should_set_the_name_of_the_route(): void
+    private function testRequest(string $method, string $uri): Request
     {
-        $route = new Route(method:"GET", uri:"/", controllerName:"MockController", actionName:"index");
-        $route->name("root");
+        require_once Constants::rootPath()->join('../../tests/Unit/Core/Http/header_mock.php');
 
-        $this->assertEquals("root", $route->getName());
+        $_SERVER['REQUEST_METHOD'] = $method;
+        $_SERVER['REQUEST_URI'] = $uri;
+        $_REQUEST = [];
+        return new Request();
     }
-
-    
 }

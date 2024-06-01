@@ -3,6 +3,7 @@
 namespace Core\Router;
 
 use Core\Constants\Constants;
+use Core\Http\Request;
 use Core\Router\Route;
 use Exception;
 
@@ -17,7 +18,7 @@ class Router
     }
 
     private static ?Router $instance = null;
-      /** @var Route[] $routes */
+    /** @var Route[] $routes */
     private array $routes = [];
 
     public function addRoute(Route $route): Route
@@ -48,19 +49,14 @@ class Router
     public function dispatch(): object|bool
     {
         {
-            $method = $_REQUEST["_method"] ?? $_SERVER["REQUEST_METHOD"];
-            $uri = $_SERVER["REQUEST_URI"];
+            $request = new Request();
 
         foreach ($this->routes as $route) {
-            if ($route->match($method, $uri)) {
-                $class = $route->getControllerName();
+            if ($route->match($request)) {
+                $controllerName = $route->getControllerName();
                 $action = $route->getActionName();
-
-
-                $controller = new $class();
-                $controller->$action();
-
-
+                $controller = new $controllerName();
+                $controller->$action($request);
                 return $controller;
             }
         }

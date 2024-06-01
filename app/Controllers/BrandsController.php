@@ -33,7 +33,7 @@ class BrandsController
         $brand = new Brand(name: $params["brand_name"]);
 
         if ($brand->save()) {
-            $this->redirectTo("/pages/brand/list_brand.php");
+            $this->redirectTo("/list.brands");
         } else {
             $title = "Nova Marca";
             $this->render("list_brand", compact("brand", "title"));

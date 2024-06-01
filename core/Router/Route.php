@@ -2,6 +2,7 @@
 
 namespace Core\Router;
 
+use Core\Http\Request;
 use Core\Router\Router;
 
 class Route
@@ -45,9 +46,9 @@ class Route
         return $this->actionName;
     }
 
-    public function match(string $method, string $uri): bool
+    public function match(Request $request): bool
     {
-        return $this->method === $method && $this->uri === $uri;
+        return $this->method === $request->getMethod() && $this->uri === $request->getUri();
     }
 
     /*

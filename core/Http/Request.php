@@ -18,7 +18,7 @@ class Request
         $this->method = $_REQUEST["_method"] ?? $_SERVER["REQUEST_METHOD"];
         $this->uri = $_SERVER["REQUEST_URI"];
         $this->params = $_REQUEST;
-        $this->headers = function_exists("getallheaders") ? getallheaders() : [];
+        $this->headers = getallheaders();
     }
 
     public function getMethod(): string

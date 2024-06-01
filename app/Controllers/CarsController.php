@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Car;
+use Core\Http\Request;
 
 class CarsController
 {
@@ -36,19 +37,15 @@ class CarsController
         $this->render("new_car", compact("car", "title"));
     }
 
-    public function create(): void
+    public function create(Request $request): void
     {
-        $method = $_SERVER["REQUEST_METHOD"];
 
-        if ($method !== "POST") {
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
 
-        $params = trim($_POST["car"]);
-        $car = new Car(name: $params);
+        $params = $request->getParams();
+        $car = new Car(name: $params["car"]);
 
         if ($car->save()) {
-            $this->redirectTo("/pages/cars/list_car.php");
+            $this->redirectTo("/list.car");
         } else {
             $title = "Novo Carro";
             $this->render("new_car", compact("car", "title"));
