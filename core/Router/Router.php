@@ -17,9 +17,10 @@ class Router
     }
 
     private static ?Router $instance = null;
+      /** @var Route[] $routes */
     private array $routes = [];
 
-    public function addRoute(Route $route):Route
+    public function addRoute(Route $route): Route
     {
         $this->routes[] = $route;
         return $route;
@@ -34,13 +35,14 @@ class Router
         return self::$instance;
     }
 
-    public function getRoutePathByName(string $name):string{
-        foreach($this->routes as $route){
-            if($route->getName() === $name){
+    public function getRoutePathByName(string $name): string
+    {
+        foreach ($this->routes as $route) {
+            if ($route->getName() === $name) {
                 return $route->getUri();
             }
         }
-        throw new Exception("Route with $name not found",500);
+        throw new Exception("Route with $name not found", 500);
     }
 
     public function dispatch(): object|bool
@@ -66,7 +68,7 @@ class Router
         }
     }
 
-    public static function init()
+    public static function init():void
     {
         require Constants::rootPath()->join("/../config/routes.php");
         Router::getInstance()->dispatch();

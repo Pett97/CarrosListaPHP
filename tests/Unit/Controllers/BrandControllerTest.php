@@ -7,7 +7,6 @@ namespace Tests\Unit\Controllers;
 
 use App\Models\Brand;
 
-
 class BrandControllerTest extends ControllerTestCase
 {
     public function test_list_all_brands(): void
@@ -26,6 +25,5 @@ class BrandControllerTest extends ControllerTestCase
         foreach ($brands as $brand) {
             $this->assertMatchesRegularExpression("/{$brand->getName()}/", $response);
         }
-        
     }
 }

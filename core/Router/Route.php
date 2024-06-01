@@ -15,11 +15,13 @@ class Route
     ) {
     }
 
-    public function getName():string{
+    public function getName(): string
+    {
         return $this->name;
     }
 
-    public function name(string $newName):void{
+    public function name(string $newName): void
+    {
         $this->name = $newName;
     }
 
@@ -43,7 +45,7 @@ class Route
         return $this->actionName;
     }
 
-    public function match(string $method, string $uri)
+    public function match(string $method, string $uri):bool
     {
         return $this->method === $method && $this->uri === $uri;
     }
@@ -53,11 +55,13 @@ class Route
     Static Methods
 
     */
+    /**
+     * @param string $uri
+     * @param mixed[] $action
+     * @return Route
+     */
 
-
-
-
-    public static function get(string $uri, $action): Route
+    public static function get(string $uri,  $action):Route
     {
          return Router::getInstance()->addRoute(new Route('GET', $uri, $action[0], $action[1]));
     }

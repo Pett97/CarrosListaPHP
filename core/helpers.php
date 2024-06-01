@@ -8,8 +8,9 @@ function dd(): void
     Debugger::dd(func_get_args());
 }
 
-if(!function_exists("route")){
-    function route(string $name){
-         return Router::getInstance()->getRoutePathByName( $name);
+if (!function_exists("route")) {
+    function route(string $name):string
+    {
+         return Router::getInstance()->getRoutePathByName($name);
     }
 }

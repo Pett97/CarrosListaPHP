@@ -1,5 +1,7 @@
 <?php
+
 namespace Tests\Unit\Controllers;
+
 use Core\Constants\Constants;
 use Tests\TestCase;
 
@@ -27,10 +29,3 @@ abstract class ControllerTestCase extends TestCase
         }
     }
 }
-
-
-
-
-
-
-?>

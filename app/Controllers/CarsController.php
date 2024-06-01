@@ -111,7 +111,7 @@ class CarsController
     private function render(string $view, array $data = []): void
     {
         extract($data);
-        
+
         $view = "/var/www/app/views/cars/" . $view . ".phtml";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
     }

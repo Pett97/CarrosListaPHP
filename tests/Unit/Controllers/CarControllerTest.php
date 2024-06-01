@@ -6,7 +6,6 @@ use App\Models\Car;
 use App\Controllers\CarsController;
 
 class CarControllerTest extends ControllerTestCase
-
 {
     public function test_list_all_problems(): void
     {
