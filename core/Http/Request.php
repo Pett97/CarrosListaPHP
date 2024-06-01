@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Core\Http;
 
 class Request
@@ -16,10 +15,10 @@ class Request
 
     public function __construct()
     {
-        $this->method = $_REQUEST("_method") ?? $_SERVER["REQUEST_METHOD"];
+        $this->method = $_REQUEST["_method"] ?? $_SERVER["REQUEST_METHOD"];
         $this->uri = $_SERVER["REQUEST_URI"];
         $this->params = $_REQUEST;
-        $this->headers = getallheaders();
+        $this->headers = function_exists("getallheaders") ? getallheaders() : [];
     }
 
     public function getMethod(): string

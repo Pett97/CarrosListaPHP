@@ -14,7 +14,7 @@ class RouterTest extends TestCase
 
     public function setUp():void{
         parent::setUp();
-        require_once Constants::rootPath()->join("/tests/Unit/Core/Http/header_mock.php");
+        require_once Constants::rootPath()->join("../../tests/Unit/Core/Http/header_mock.php");
     }
 
 
