@@ -36,15 +36,34 @@ class Router
         return self::$instance;
     }
 
-    public function getRoutePathByName(string $name): string
+
+    /**
+     * @param string $name
+     * @param mixed[] $params
+     * @return string
+     */
+
+    public function getRoutePathByName(string $name, array $params = []): string
     {
         foreach ($this->routes as $route) {
             if ($route->getName() === $name) {
-                return $route->getUri();
+                $keys = array_map(function ($key) {
+                    return "{" . $key . "}";
+                }, array_keys($params));
+
+                $values = array_values($params);
+
+                //unset($_SERVER["REQUEST_METHOD"]);
+                //dd($keys);
+
+                return str_replace($keys, $values, $route->getUri());
             }
         }
         throw new Exception("Route with $name not found", 500);
     }
+
+
+
 
     public function dispatch(): object|bool
     {

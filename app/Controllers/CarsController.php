@@ -45,7 +45,7 @@ class CarsController
         $car = new Car(name: $params["car"]);
 
         if ($car->save()) {
-            $this->redirectTo("/list.car");
+            $this->redirectTo("/cars");
         } else {
             $title = "Novo Carro";
             $this->render("new_car", compact("car", "title"));

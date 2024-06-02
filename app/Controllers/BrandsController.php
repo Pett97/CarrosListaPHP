@@ -33,71 +33,58 @@ class BrandsController
         $brand = new Brand(name: $params["brand_name"]);
 
         if ($brand->save()) {
-            $this->redirectTo("/list.brands");
+            $this->redirectTo(route("brands.list"));
         } else {
             $title = "Nova Marca";
             $this->render("list_brand", compact("brand", "title"));
         }
     }
 
-    public function edit(): void
+    public function show(Request $request): void
     {
-        $brandID = intval($_GET["brand_id"]);
-        $brand = Brand::findByID($brandID);
-
-        $title = "Editar {$brand->getName()}";
-        $this->render("edit_brand", compact("brand", "title"));
-    }
-
-
-    public function show(): void
-    {
-        $brandID = $_GET["brand_id"];
-        $brandID = (intval($brandID));
-        $brand = Brand::findByID($brandID);
+        $params = $request->getParams();
+        $brand = Brand::findByID($params["id"]);
 
         if ($brand !== null) {
             $title = $brand->getName();
             $this->render("detail_brand", compact("brand", "title"));
         } else {
-            $this->redirectTo("/pages/list_brand.php");
+            $this->redirectTo(route("brands.list"));
         }
     }
 
-    public function update(): void
+    public function edit(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
+        $params = $request->getParams();
+        $brand = Brand::findByID($params["id"]);
 
-        if ($method !== "PUT") {
-            $this->redirectTo("/pages/brand/list_brand.php");
-        }
+        $title = "Editar {$brand->getName()}";
+        $this->render("edit_brand", compact("brand", "title"));
+    }
 
-        $id = intval($_POST["idBrandForEdit"]);
-        $brand = Brand::findByID($id);
+    public function update(Request $request): void
+    {
+        $params = $request->getParams();
 
-        $newNameBrand = trim($_POST["newNameBrand"]);
-        if ($brand !== null) {
-            $brand->setName($newNameBrand);
-            $brand->save();
-            $this->redirectTo("/pages/brand/list_brand.php");
-        }
+        $brand = Brand::findByID($params["id"]);
+
+        $newNameBrand = $params["newBrandName"];
+        $brand->setName($newNameBrand);
+        $brand->save();
+        $this->redirectTo(route("brands.list"));
 
         $title = "Editar Marca ";
         $this->render("edit_brand", compact("brand", "title"));
     }
 
-    public function delete(): void
+    public function delete(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
-
-        if ($method !== "DELETE") {
-        } else {
-            $id = intval($_POST["id_delete"]);
-            $brand = Brand::findByID($id);
-            $brand->destroy();
-            $this->redirectTo("/pages/brand/list_brand.php");
-        }
+        $params = $request->getParams();
+        $brand = Brand::findByID($params["id"]);
+        $brand->destroy();
+        $this->redirectTo(route("brands.list"));
     }
+
 
     private function redirectTo(string $path): void
     {
@@ -106,7 +93,7 @@ class BrandsController
     }
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function render(string $view, array $data = []): void
     {
         extract($data);
@@ -116,7 +103,7 @@ class BrandsController
 
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function renderJSON(string $view, array $data = []): void
     {
         extract($data);
