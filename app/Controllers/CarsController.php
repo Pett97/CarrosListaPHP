@@ -20,16 +20,6 @@ class CarsController
         }
     }
 
-    public function show(): void
-    {
-        $carID = intval($_GET['car_id']);
-
-        $car = Car::findByID($carID);
-
-        $title = "Detalhes {$car->getName()} ";
-        $this->render("detail_car", compact("car", "title"));
-    }
-
     public function new(): void
     {
         $car = new Car();
@@ -45,57 +35,53 @@ class CarsController
         $car = new Car(name: $params["car"]);
 
         if ($car->save()) {
-            $this->redirectTo("/cars");
+            $this->redirectTo(route("cars"));
         } else {
             $title = "Novo Carro";
             $this->render("new_car", compact("car", "title"));
         }
     }
 
-    public function edit(): void
+    public function show(Request $request): void
     {
-        $carID = intval($_GET['car_id']);
-        $car = Car::findByID($carID);
+        $params = $request->getParams();
+        $car = Car::findByID($params["id"]);
+
+        $title = "Detalhes {$car->getName()} ";
+        $this->render("detail_car", compact("car", "title"));
+    }
+
+    public function edit(Request $request): void
+    {
+        $params = $request->getParams();
+        $car = Car::findByID($params["id"]);
 
         $title = "Editar {$car->getName()} ";
         $this->render("edit_car", compact("car", "title"));
     }
 
-    public function update(): void
+    public function update(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
+        $params = $request->getParams();
 
-        if ($method !== "PUT") {
-            $this->redirectTo("/pages/cars/list_car.php");
-            exit;
-        }
+        $car = Car::findByID($params["id"]);
 
-        $id = intval($_POST["idCarForEdit"]);
+        $newCarName = $params["newNameCar"];
 
-        $car = Car::findByID($id);
-
-        $newCarName = trim($_POST["newNameCar"]);
-
-        if ($car !== null) {
-            $car->setName($newCarName);
-            $car->save();
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
+        $car->setName($newCarName);
+        $car->save();
+        $this->redirectTo(route("cars"));
     }
 
-    public function delete(): void
+    public function delete(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
+        $params = $request->getParams();
 
-        if ($method !== "DELETE") {
-            exit;
-        } else {
-            $id = intval($_POST["id_delete"]);
-            $car = Car::findByID($id);
-            $car->destroy();
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
+        $car = Car::findByID($params["id"]);
+        $car->destroy();
+        $this->redirectTo(route("cars"));
     }
+
 
     private function redirectTo(string $path): void
     {
@@ -104,7 +90,7 @@ class CarsController
     }
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function render(string $view, array $data = []): void
     {
         extract($data);
@@ -114,7 +100,7 @@ class CarsController
     }
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function renderJSON(string $view, array $data = []): void
     {
         extract($data);

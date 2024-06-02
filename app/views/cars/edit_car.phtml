@@ -1,6 +1,6 @@
 <section>
   <div class="row">
-    <form action="update_car.php" method="POST" class="col s12">
+    <form action="<?= route("car.update",["id"=>$car->getId()])?>" method="POST" class="col s12">
       <div class="row">
         <div class="input-field col s12 m12 l12">
           <input type="hidden" name="_method" value="PUT">
