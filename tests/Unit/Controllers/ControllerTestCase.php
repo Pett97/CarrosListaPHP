@@ -3,29 +3,41 @@
 namespace Tests\Unit\Controllers;
 
 use Core\Constants\Constants;
+use Core\Http\Request;
 use Tests\TestCase;
 
 abstract class ControllerTestCase extends TestCase
 {
+    private Request $request;
+
     public function setUp(): void
     {
         parent::setUp();
-        require Constants::teste()->join('/config/routes.php');
+        require Constants::rootPath()->join('../../config/routes.php');
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/';
+        $this->request = new Request();
+    }
+
+    public function tearDown(): void
+    {
+        unset($_SERVER['REQUEST_METHOD']);
+        unset($_SERVER['REQUEST_URI']);
     }
 
     public function get(string $action, string $controller): string
     {
-        echo "Creating controller instance: $controller\n";
-        $controllerInstance = new $controller();
+        $controller = new $controller();
 
         ob_start();
         try {
-            echo "Calling action: $action\n";
-            $controllerInstance->$action();
-            return ob_get_clean();
+            $controller->$action($this->request);
+            return ob_get_contents();
         } catch (\Exception $e) {
-            echo "Exception: " . $e->getMessage() . "\n";
             throw $e;
+        } finally {
+            ob_end_clean();
         }
     }
 }

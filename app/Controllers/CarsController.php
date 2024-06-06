@@ -8,12 +8,12 @@ use Core\Http\Request;
 class CarsController
 {
     private string $layout = "application";
-    public function index(): void
+    public function index(Request $request): void
     {
         $cars = Car::all();
         $title = "Lista De Carros";
 
-        if ($this->isJsonRequest()) {
+        if ($request->acceptJson()) {
             $this->renderJson('index', compact('cars', 'title'));
         } else {
             $this->render('list_car', compact('cars', 'title'));
@@ -112,8 +112,8 @@ class CarsController
         return;
     }
 
-    private function isJsonRequest(): bool
-    {
-        return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
-    }
+    //private function isJsonRequest(): bool
+    //{
+    //    return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
+    //}
 }

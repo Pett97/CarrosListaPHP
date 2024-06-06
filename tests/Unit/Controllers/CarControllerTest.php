@@ -3,11 +3,10 @@
 namespace Tests\Unit\Controllers;
 
 use App\Models\Car;
-use App\Controllers\CarsController;
 
 class CarControllerTest extends ControllerTestCase
 {
-    public function test_list_all_problems(): void
+    public function test_list_all_cars(): void
     {
         $cars[] = new Car(name: 'carro1');
         $cars[] = new Car(name: 'carro2');
