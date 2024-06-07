@@ -3,6 +3,7 @@
 namespace Core\Router;
 
 use Core\Constants\Constants;
+use Core\Exceptions\HTTPException;
 use Core\Http\Request;
 use Core\Router\Route;
 use Exception;
@@ -90,8 +91,7 @@ class Router
 
     public function dispatch(): object|bool
     {
-        {
-            $request = new Request();
+        $request = new Request();
 
         foreach ($this->routes as $route) {
             if ($route->match($request)) {
@@ -102,9 +102,10 @@ class Router
                 return $controller;
             }
         }
-            return false;
-        }
+
+        throw new HTTPException("URI " . $request->getUri() . " Not Found", 404);
     }
+
 
     public static function init(): void
     {
