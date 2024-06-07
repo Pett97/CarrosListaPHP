@@ -58,9 +58,9 @@ class Route
 
     private function isSameUri(Request $request): bool
     {
-
+        $uri = strtok($request->getUri(), "?");
         $splittedRoute = explode("/", $this->getUri());
-        $splittedUri = explode("/", $request->getUri());
+        $splittedUri = explode("/", $uri);
 
         if (sizeof($splittedRoute) !== sizeof($splittedUri)) {
             return false;

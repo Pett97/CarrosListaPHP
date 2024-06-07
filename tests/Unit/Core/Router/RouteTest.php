@@ -164,6 +164,14 @@ class RouteTest extends TestCase
         $this->assertEquals(['id' => 1], $request->getParams());
     }
 
+    public function test_match_should_return_true_using_query_params(): void
+    {
+        $route = new Route(method: 'GET', uri: '/test', controllerName: 'MockController', actionName: 'show');
+        $request = $this->testRequest('GET', '/test?user_id=1&id=2');
+
+        $this->assertTrue($route->match($request));
+    }
+
     private function testRequest(string $method, string $uri): Request
     {
         require_once Constants::rootPath()->join('../../tests/Unit/Core/Http/header_mock.php');
