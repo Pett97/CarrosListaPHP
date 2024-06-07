@@ -3,30 +3,21 @@
 namespace App\Controllers;
 
 use App\Models\Car;
+use Core\Http\Request;
 
 class CarsController
 {
     private string $layout = "application";
-    public function index(): void
+    public function index(Request $request): void
     {
         $cars = Car::all();
         $title = "Lista De Carros";
 
-        if ($this->isJsonRequest()) {
+        if ($request->acceptJson()) {
             $this->renderJson('index', compact('cars', 'title'));
         } else {
             $this->render('list_car', compact('cars', 'title'));
         }
-    }
-
-    public function show(): void
-    {
-        $carID = intval($_GET['car_id']);
-
-        $car = Car::findByID($carID);
-
-        $title = "Detalhes {$car->getName()} ";
-        $this->render("detail_car", compact("car", "title"));
     }
 
     public function new(): void
@@ -36,69 +27,61 @@ class CarsController
         $this->render("new_car", compact("car", "title"));
     }
 
-    public function create(): void
+    public function create(Request $request): void
     {
-        $method = $_SERVER["REQUEST_METHOD"];
 
-        if ($method !== "POST") {
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
 
-        $params = trim($_POST["car"]);
-        $car = new Car(name: $params);
+        $params = $request->getParams();
+        $car = new Car(name: $params["car"]);
 
         if ($car->save()) {
-            $this->redirectTo("/pages/cars/list_car.php");
+            $this->redirectTo(route("cars"));
         } else {
             $title = "Novo Carro";
             $this->render("new_car", compact("car", "title"));
         }
     }
 
-    public function edit(): void
+    public function show(Request $request): void
     {
-        $carID = intval($_GET['car_id']);
-        $car = Car::findByID($carID);
+        $params = $request->getParams();
+        $car = Car::findByID($params["id"]);
+
+        $title = "Detalhes {$car->getName()} ";
+        $this->render("detail_car", compact("car", "title"));
+    }
+
+    public function edit(Request $request): void
+    {
+        $params = $request->getParams();
+        $car = Car::findByID($params["id"]);
 
         $title = "Editar {$car->getName()} ";
         $this->render("edit_car", compact("car", "title"));
     }
 
-    public function update(): void
+    public function update(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
+        $params = $request->getParams();
 
-        if ($method !== "PUT") {
-            $this->redirectTo("/pages/cars/list_car.php");
-            exit;
-        }
+        $car = Car::findByID($params["id"]);
 
-        $id = intval($_POST["idCarForEdit"]);
+        $newCarName = $params["newNameCar"];
 
-        $car = Car::findByID($id);
-
-        $newCarName = trim($_POST["newNameCar"]);
-
-        if ($car !== null) {
-            $car->setName($newCarName);
-            $car->save();
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
+        $car->setName($newCarName);
+        $car->save();
+        $this->redirectTo(route("cars"));
     }
 
-    public function delete(): void
+    public function delete(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER["REQUEST_METHOD"];
+        $params = $request->getParams();
 
-        if ($method !== "DELETE") {
-            exit;
-        } else {
-            $id = intval($_POST["id_delete"]);
-            $car = Car::findByID($id);
-            $car->destroy();
-            $this->redirectTo("/pages/cars/list_car.php");
-        }
+        $car = Car::findByID($params["id"]);
+        $car->destroy();
+        $this->redirectTo(route("cars"));
     }
+
 
     private function redirectTo(string $path): void
     {
@@ -107,16 +90,17 @@ class CarsController
     }
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function render(string $view, array $data = []): void
     {
         extract($data);
+
         $view = "/var/www/app/views/cars/" . $view . ".phtml";
         require "/var/www/app/views/layouts/" . $this->layout . ".phtml";
     }
     /**
      * @param array<string, mixed> $data
-    */
+     */
     private function renderJSON(string $view, array $data = []): void
     {
         extract($data);
@@ -128,8 +112,8 @@ class CarsController
         return;
     }
 
-    private function isJsonRequest(): bool
-    {
-        return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
-    }
+    //private function isJsonRequest(): bool
+    //{
+    //    return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
+    //}
 }

@@ -49,9 +49,18 @@ function phpcbf {
    docker compose run --rm php ./vendor/bin/phpcbf ${TEST_PATH}
 }
 
+function php:console {
+    docker compose exec php php -a
+}
+
 function phpstan {
    TEST_PATH="${@:-}"
    docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
+}
+
+function dumpAutoloadCS(){
+    docker compose run --rm composer dump-autoloadcs
+
 }
 
 function dumpAutoload(){

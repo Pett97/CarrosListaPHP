@@ -22,7 +22,7 @@ class TestCase extends FrameworkTestCase
 
     private function clearDatabase(): void
     {
-        $file = Constants::databasePath()->join($_ENV["DB_NAME"]);
+        $file = Constants::databasePath()->join($_ENV["DB_CAR"]);
         if (file_exists($file)) {
             unlink($file);
         }

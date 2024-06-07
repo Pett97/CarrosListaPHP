@@ -54,8 +54,9 @@ class Brand
     {
         if ($this->isValid()) {
             if ($this->newRecord()) {
-                $this->id = count(file(self::dbPath()));
+                // $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
                 file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
+                $this->id = count(file(self::dbPath()));
             } else {
                 $brands = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
                 $brands[$this->id] = $this->name;
