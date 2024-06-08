@@ -17,9 +17,6 @@ jobs:
       - name: Composer install
         run: ./run composer install
 
-      - name: DB Reset  
-        run: ./run db:reset
-
       - name: PHPUNIT
         run: ./run test
   code_quality:
@@ -34,8 +31,6 @@ jobs:
       - name: Composer install
         run: ./run composer install
 
-      - name: DB Reset  
-        run: ./run db:reset  
 
       - name: PHPCS
         run: ./run phpcs
