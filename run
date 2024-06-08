@@ -77,16 +77,11 @@ function git:clean:branchs {
 function db:console() {
     docker exec -it db sh -c "MYSQL_PWD=${DB_PASSWORD} mysql -u ${DB_USER} ${DB_DATABASE}"
 }
-
+ source .env
 function db:reset(){
-    set -a
-    source .env
-    set +a
 
-    # Copia o arquivo de schema para o contêiner do banco de dados
     docker cp database/schema.sql db:/tmp/
 
-    # Executa o comando MySQL no contêiner
     docker exec db sh -c "MYSQL_PWD='${DB_PASSWORD}' mysql -u'${DB_USER}' '${DB_DATABASE}' --default-character-set=utf8mb4 < /tmp/schema.sql"
 }
 
