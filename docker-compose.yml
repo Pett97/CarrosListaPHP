@@ -1,4 +1,5 @@
 
+
 services:
   web:
     image: nginx
@@ -20,21 +21,20 @@ services:
       - .:/var/www
     networks:
       - carro-network
-    command: ["sh", "-c", "wait-for-db.sh db && php-fpm"]
 
   db:
-    image: mysql:8.0
+    image: mysql:8.4.0
     container_name: db
     env_file:
       - .env
     environment:
-      MYSQL_DATABASE: "${DB_DATABASE}"
-      MYSQL_USER: "${DB_USER}"
-      MYSQL_PASSWORD: "${DB_PASSWORD}"
-      MYSQL_ROOT_PASSWORD: "root"
+      MYSQL_DATABASE: "$DB_DATABASE"
+      MYSQL_USER: "$DB_USER"
+      MYSQL_PASSWORD: "$DB_PASSWORD"
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
     networks:
       - carro-network    
-
+      
   composer:
     image: composer:2.7.2
     user: "1000:1000"
