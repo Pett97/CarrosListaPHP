@@ -20,6 +20,7 @@ services:
       - .:/var/www
     networks:
       - carro-network
+    command: ["sh", "-c", "wait-for-db.sh db && php-fpm"]
 
   db:
     image: mysql:8.0
