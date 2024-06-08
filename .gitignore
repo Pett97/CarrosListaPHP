@@ -8,3 +8,4 @@
 /log/*
 
 #ignore envgit a
+.env
