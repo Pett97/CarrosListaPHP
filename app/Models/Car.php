@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use Core\Constants\Constants;
+use Core\Database\Database;
 
 class Car
 {
-  //const DB_PATH  = '/var/www/database/cars.txt';
+    //const DB_PATH  = '/var/www/database/cars.txt';
     private string $name = "";
 
     /**
      * @var array<string, string>
-    */
+     */
     private array $errors = [];
 
     public function __construct(string $name = "", private int $id = -1)
@@ -50,37 +50,54 @@ class Car
     }
     /**
      * @return array<int, Car>
-    */
+     */
     public static function all(): array
     {
-        $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-        return array_map(fn
-        ($lineNumber, $carName) => new Car(id: $lineNumber, name: $carName), array_keys($cars), $cars);
+        $cars = [];
+        $pdo = Database::getDatabaseConn();
+        $resp = $pdo->query("SELECT id,name FROM cars");
+        foreach ($resp as $row) {
+            $cars[] = new Car(id: $row["id"], name: $row["name"]);
+        }
+        return $cars;
     }
 
     public static function findByID(int $id): Car|null
     {
-        $cars = self::all();
+        $pdo = Database::getDatabaseConn();
+        $sql = "SELECT id,name FROM cars WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $id);
 
-        foreach ($cars as $car) {
-            if ($car->getID() === $id) {
-                return $car;
-            }
+        $stmt->execute();
+
+        if ($stmt->rowCount() == 0) {
+            return null;
         }
-        return null;
+
+        $row = $stmt->fetch();
+
+        return new Car(id: $row["id"], name: $row["name"]);
     }
 
     public function save(): bool
     {
         if ($this->isValid()) {
+            $pdo = Database::getDatabaseConn();
             if ($this->newRecord()) {
-                $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
-                file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
+                $sql = "INSERT INTO cars (name) VALUES (:name)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":name", $this->name);
+
+                $stmt->execute();
+            
             } else {
-                $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-                $cars[$this->id] = $this->name;
-                $data = implode(PHP_EOL, $cars);
-                file_put_contents(self::dbPath(), $data . PHP_EOL);
+                //for update Car
+                $sql = "UPDATE cars set name = :name WHERE id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":name", $this->name);
+                $stmt->bindParam(":id", $this->id);
+                $stmt->execute();
             }
             return true;
         }
@@ -92,15 +109,18 @@ class Car
         return $this->id == -1;
     }
 
-    public function destroy(): void
+    public function destroy(): bool
     {
-        $cars = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-        unset($cars[$this->id]);
-        $data = implode(PHP_EOL, $cars);
-        file_put_contents(self::dbPath(), $data . PHP_EOL);
+        $pdo = Database::getDatabaseConn();
+        $sql = "DELETE FROM cars WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        return ($stmt->rowCount() !== 0);
     }
 
-  //private
+    //private
 
     private function addErro(string $text): void
     {
@@ -115,10 +135,5 @@ class Car
             $this->addErro("Nome do Carro Não pode ser Vazio");
         }
         return empty($this->errors);
-    }
-
-    private static function dbPath(): string
-    {
-        return Constants::databasePath()->join($_ENV["DB_CAR"]);
     }
 }
