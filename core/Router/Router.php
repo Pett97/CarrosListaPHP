@@ -109,7 +109,9 @@ class Router
 
     public static function init(): void
     {
-        require Constants::rootPath()->join("/../config/routes.php");
-        Router::getInstance()->dispatch();
+        if (isset($_SERVER['REQUEST_METHOD'])) {
+            require Constants::rootPath()->join("/../config/routes.php");
+            Router::getInstance()->dispatch();
+        }
     }
 }

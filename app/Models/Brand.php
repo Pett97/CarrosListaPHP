@@ -3,16 +3,17 @@
 namespace App\Models;
 
 use Core\Constants\Constants;
+use Core\Database\Database;
 
 class Brand
 {
-  //cons dbPath  = '/var/www/database/brand.txt';
+    //cons dbPath  = '/var/www/database/brand.txt';
 
     public string $name = "";
 
     /**
      * @var array<string, string>
-    */
+     */
     private array $errors = [];
 
     public function __construct(string $name = "", private int $id = -1)
@@ -53,15 +54,19 @@ class Brand
     public function save(): bool
     {
         if ($this->isValid()) {
+            $pdo = Database::getDatabaseConn();
             if ($this->newRecord()) {
-                // $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
-                file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
-                $this->id = count(file(self::dbPath()));
+                $sql = "INSERT INTO brands (name) VALUES (:name)";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":name", $this->name);
+
+                $stmt->execute();
             } else {
-                $brands = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-                $brands[$this->id] = $this->name;
-                $data = implode(PHP_EOL, $brands);
-                file_put_contents(self::dbPath(), $data . PHP_EOL);
+                $sql = "UPDATE brands set name = :name WHERE id = :id";
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(":name", $this->name);
+                $stmt->bindParam(":id", $this->id);
+                $stmt->execute();
             }
             return true;
         }
@@ -86,36 +91,45 @@ class Brand
     }
     /**
      * @return array<int, Brand>
-    */
+     */
     public static function all(): array
     {
-        $brands = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-        return array_map(fn
-        ($lineNumber, $brandName) => new Brand(id: $lineNumber, name: $brandName), array_keys($brands), $brands);
+        $brands = [];
+        $pdo = Database::getDatabaseConn();
+        $resp = $pdo->query("SELECT name,id FROM brands");
+        foreach ($resp as $row) {
+            $brands[] = new Brand(name: $row["name"], id: $row["id"]);
+        }
+        return $brands;
     }
 
 
     public static function findByID(int $id): Brand|null
     {
-        $brands = self::all();
-        foreach ($brands as $brand) {
-            if ($brand->getId() === $id) {
-                return $brand;
-            }
+        $pdo = Database::getDatabaseConn();
+        $sql = "SELECT id,name FROM brands WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $id);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() == 0) {
+            return null;
         }
-        return null;
+
+        $row = $stmt->fetch();
+
+        return new Brand(id: $row["id"], name: $row["name"]);
     }
 
-    public function destroy(): void
+    public function destroy(): bool
     {
-        $brands = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-        unset($brands[$this->id]);
-        $data = implode(PHP_EOL, $brands);
-        file_put_contents(self::dbPath(), $data . PHP_EOL);
-    }
+        $pdo = Database::getDatabaseConn();
+        $sql = "DELETE FROM brands WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
 
-    private static function dbPath(): string
-    {
-        return Constants::databasePath() . $_ENV["DB_BRAND"];
+        return ($stmt->rowCount() !== 0);
     }
 }

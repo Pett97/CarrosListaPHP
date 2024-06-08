@@ -7,5 +7,4 @@
 #igone log
 /log/*
 
-#ignore env
-.env
+#ignore envgit a
