@@ -78,6 +78,11 @@ function db:console() {
     docker exec -it db sh -c "MYSQL_PWD=${DB_PASSWORD} mysql -u ${DB_USER} ${DB_DATABASE}"
 }
 
+function db:reset(){
+    docker compose cp database/schema.sql db:/tmp/
+    docker exec db sh -c "MYSQL_PWD=${DB_PASSWORD} mysql -u  ${DB_USER} ${DB_DATABASE} --default-character-set utf8mb4 < /tmp/schema.sql"
+}
+
 
 TIMEFORMAT=$'\nTask completed in %3lR'
 time ${@}
