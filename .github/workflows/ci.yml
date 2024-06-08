@@ -1,8 +1,8 @@
-name: Continuous Integration with Github Actions
+name: Continous Integration
 
 on:
-  push:
-
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   tests:
@@ -14,16 +14,21 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Create Env
-        run: .cp .env.example .env   
-    
+      - name: Create .env
+        run: cp .env.example .env
+
       - name: Composer install
         run: ./run composer install
 
-      - name: PHPUNIT
-        run: ./run test
+      - name: PHPUnit Units test
+        run: ./run test tests/Unit
+
+      - name: PHPUnit Browser tests
+        run: |
+          ./run up -d
+          ./run test tests/Browser
   code_quality:
-    name: Code_Quality_Check 
+    name: Code Quality Check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -31,15 +36,17 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
-      - name: Create Env
-        run: .cp .env.example .env       
-    
+      - name: Create .env
+        run: cp .env.example .env
+
       - name: Composer install
         run: ./run composer install
 
+      - name: PSR-4 Checker
+        run: ./run composer dump-autoload --optimize --strict-psr
 
       - name: PHPCS
         run: ./run phpcs
 
-      - name: PHPSTAN
-        run: ./run phpstan           
+      - name: PHPStan
+        run: ./run phpstan
