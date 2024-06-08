@@ -90,7 +90,6 @@ class Car
                 $stmt->bindParam(":name", $this->name);
 
                 $stmt->execute();
-            
             } else {
                 //for update Car
                 $sql = "UPDATE cars set name = :name WHERE id = :id";
