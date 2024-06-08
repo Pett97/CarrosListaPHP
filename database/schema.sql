@@ -1,6 +1,5 @@
 
 
-use listcar;
 
 drop table if exists cars;
 

@@ -15,7 +15,7 @@ class Database
         $port = $_ENV['DB_PORT'];
         $db   = $_ENV['DB_DATABASE'];
 
-        $pdo = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $db, $user, $pwd);
+        $pdo = new PDO('mysql:host=' . $host . ';port=' . $port . ';dbname=' . $db, $user,$pwd);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         return $pdo;
@@ -27,8 +27,7 @@ class Database
         $pwd  = $_ENV['DB_PASSWORD'];
         $host = $_ENV['DB_HOST'];
         $port = $_ENV['DB_PORT'];
-
-        $pdo = new PDO('mysql:host=' . $host . ';port=' . $port, $user, $pwd);
+        $pdo = new PDO('mysql:host=' . $host . ';port=' . $port, $user,$pwd);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
         return $pdo;
@@ -49,7 +48,7 @@ class Database
 
     public static function migrate(): void
     {
-        $sql = file_get_contents(Constants::databasePath()->join('schemaTest.sql'));
-        self::getConn()->exec($sql);
+        $sql = file_get_contents(Constants::databasePath()->join('schema.sql'));
+        self::getDatabaseConn()->exec($sql);
     }
 }
