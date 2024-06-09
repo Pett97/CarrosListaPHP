@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Car;
 use Core\Http\Request;
+use Lib\FlashMessage;
 
 class CarsController
 {
@@ -38,6 +39,7 @@ class CarsController
         $car = new Car(name: $params["car"]);
 
         if ($car->save()) {
+            FlashMessage::success("Carro Criado Com Sucesso");
             $this->redirectTo(route("cars"));
         } else {
             $title = "Novo Carro";
@@ -73,6 +75,7 @@ class CarsController
 
         $car->setName($newCarName);
         $car->save();
+        FlashMessage::success("Carro Atualizado Com Sucesso");
         $this->redirectTo(route("cars"));
     }
 
@@ -82,6 +85,7 @@ class CarsController
 
         $car = Car::findByID($params["id"]);
         $car->destroy();
+        FlashMessage::success("Carro Removido Com Sucesso");
         $this->redirectTo(route("cars"));
     }
 
