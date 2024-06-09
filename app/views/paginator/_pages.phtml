@@ -1,0 +1,30 @@
+<?php
+$requestUri = $_SERVER['REQUEST_URI'];
+preg_match('/([^\/]+)\/page\/(\d+)(\/|\?|$)/', $requestUri, $matches);
+$routeName = isset($matches[1]) ? $matches[1] : null;
+$currentPage = isset($matches[2]) ? (int)$matches[2] : 1;
+?>
+
+<ul class="pagination">
+    <li class="<?php echo ($currentPage == 1) ? 'disabled' : 'waves-effect'; ?>">
+        <?php if ($currentPage > 1) { ?>
+            <a href="<?= route($paginator->getRouteName(), ["page" => $currentPage - 1]) ?>"><i class="material-icons">chevron_left</i></a>
+        <?php } else { ?>
+            <a href="#!"><i class="material-icons">chevron_left</i></a>
+        <?php } ?>
+    </li>
+
+    <?php for ($page = 1; $page <= $paginator->totalOfPages(); $page++) { ?>
+        <li class="<?php echo ($currentPage == $page) ? 'active blue darken-4' : 'waves-effect'; ?>">
+            <a href="<?= route($paginator->getRouteName(), ["page" => $page]) ?>"><?php echo $page; ?></a>
+        </li>
+    <?php } ?>
+
+    <li class="<?php echo ($currentPage == $paginator->totalOfPages()) ? 'disabled' : 'waves-effect'; ?>">
+        <?php if ($currentPage < $paginator->totalOfPages()) { ?>
+            <a href="<?= route($paginator->getRouteName(), ["page" => $currentPage + 1]) ?>"><i class="material-icons">chevron_right</i></a>
+        <?php } else { ?>
+            <a href="#!"><i class="material-icons">chevron_right</i></a>
+        <?php } ?>
+    </li>
+</ul>

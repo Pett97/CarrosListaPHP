@@ -10,13 +10,16 @@ class CarsController
     private string $layout = "application";
     public function index(Request $request): void
     {
-        $cars = Car::all();
+        $page = $request->getParam('page', 1); // Padrão para a primeira página
+        $itemsPerPage = $request->getParam('items_per_page', 10); // Padrão para 10 itens por página
+        $paginator = Car::paginate($page, $itemsPerPage);
+        $cars = $paginator->registers();
         $title = "Lista De Carros";
 
         if ($request->acceptJson()) {
-            $this->renderJson('index', compact('cars', 'title'));
+            $this->renderJson('index', compact("paginator", 'cars', 'title'));
         } else {
-            $this->render('list_car', compact('cars', 'title'));
+            $this->render('list_car', compact("paginator", 'cars', 'title'));
         }
     }
 

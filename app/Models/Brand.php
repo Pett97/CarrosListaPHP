@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Core\Constants\Constants;
 use Core\Database\Database;
+use Lib\Paginator;
 
 class Brand
 {
@@ -16,7 +17,7 @@ class Brand
      */
     private array $errors = [];
 
-    public function __construct(string $name = "", private int $id = -1)
+    public function __construct(private int $id = -1, string $name = "")
     {
         $this->name = trim(strtoupper($name));
     }
@@ -131,5 +132,16 @@ class Brand
         $stmt->execute();
 
         return ($stmt->rowCount() !== 0);
+    }
+
+    public static function paginate(int $page, int $per_page): Paginator
+    {
+        return new Paginator(
+            class:Brand::class,
+            page:$page,
+            per_page:$per_page,
+            table:'brands',
+            attributes:["name"]
+        );
     }
 }
