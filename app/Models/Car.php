@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Database\Database;
+use Lib\Paginator;
 
 class Car
 {
@@ -14,7 +15,7 @@ class Car
      */
     private array $errors = [];
 
-    public function __construct(string $name = "", private int $id = -1)
+    public function __construct(private int $id = -1, string $name = "")
     {
         $this->name = strtoupper($name);
     }
@@ -134,5 +135,16 @@ class Car
             $this->addErro("Nome do Carro Não pode ser Vazio");
         }
         return empty($this->errors);
+    }
+
+    public static function paginate(int $page, int $per_page): Paginator
+    {
+        return new Paginator(
+            class:Car::class,
+            page:$page,
+            per_page:$per_page,
+            table:'cars',
+            attributes:["name"]
+        );
     }
 }

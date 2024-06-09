@@ -6,6 +6,7 @@ use App\Controllers\BrandsController;
 
 //Brands
 Route::get("/", [BrandsController::class, "index"])->name("root");
+Route::get("/brands/page/{page}", [BrandsController::class, "index"])->name("brands.paginate");
 
 //create
 
@@ -25,9 +26,10 @@ Route::delete("/brands/{id}", [BrandsController::class, "delete"])->name("brand.
 
 //Cars--------------------------
 Route::get("/cars", [CarsController::class, "index"])->name("cars");
-
+Route::get("/cars/page/{page}", [CarsController::class, "index"])->name("cars.paginate");
 //create
 Route::get("/cars/new", [CarsController::class, "new"])->name("new.car");
+
 Route::post("/cars", [CarsController::class, "create"])->name("create.car");
 
 

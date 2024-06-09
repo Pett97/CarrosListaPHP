@@ -8,14 +8,18 @@ use Core\Http\Request;
 class BrandsController
 {
     private string $layout = "application";
-    public function index(): void
+    public function index(Request $request): void
     {
-        $brands = Brand::all();
-        $title = "Lista De Marcas";
-        if ($this->isJsonRequest()) {
-            $this->renderJson('list_brand', compact('brands', 'title'));
+        $page = $request->getParam('page', 1);
+        $itemsPerPage = $request->getParam('items_per_page', 10);
+        $paginator = Brand::paginate($page, $itemsPerPage);
+        $brands = $paginator->registers();
+        $title = "Lista De Carros";
+
+        if ($request->acceptJson()) {
+            $this->renderJson('index', compact("paginator", 'brands', 'title'));
         } else {
-            $this->render('list_brand', compact('brands', 'title'));
+            $this->render('list_brand', compact("paginator", 'brands', 'title'));
         }
     }
 
@@ -115,8 +119,8 @@ class BrandsController
         return;
     }
 
-    private function isJsonRequest(): bool
-    {
-        return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === 'application/json');
-    }
+    //private function isJsonRequest(): bool
+    //{
+      //  return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === ///'application/json');
+   // }
 }
