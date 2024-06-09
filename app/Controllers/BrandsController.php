@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Brand;
 use Core\Http\Request;
+use Lib\FlashMessage;
 
 class BrandsController
 {
@@ -37,6 +38,7 @@ class BrandsController
         $brand = new Brand(name: $params["brand_name"]);
 
         if ($brand->save()) {
+            FlashMessage::success("Marca Criada Com Sucesso");
             $this->redirectTo(route("brands.list"));
         } else {
             $title = "Nova Marca";
@@ -75,6 +77,7 @@ class BrandsController
         $newNameBrand = $params["newBrandName"];
         $brand->setName($newNameBrand);
         $brand->save();
+        FlashMessage::success("Marca Atualizada Com Sucesso");
         $this->redirectTo(route("brands.list"));
 
         $title = "Editar Marca ";
@@ -86,6 +89,7 @@ class BrandsController
         $params = $request->getParams();
         $brand = Brand::findByID($params["id"]);
         $brand->destroy();
+        FlashMessage::success("Marca Removida Com Sucesso");
         $this->redirectTo(route("brands.list"));
     }
 
