@@ -5,10 +5,32 @@ namespace App\Controllers;
 use App\Models\Brand;
 use Core\Http\Request;
 use Lib\FlashMessage;
+use App\Models\User;
+use Lib\Authentication\Auth;
 
 class BrandsController
 {
     private string $layout = "application";
+    private ?User $currentUser = null;
+
+
+    private function currentUser(): ?User
+    {
+        if ($this->currentUser === null) {
+            $this->currentUser = Auth::user();
+        }
+        return $this->currentUser;
+    }
+
+
+   // public function authenticated(): void
+   // {
+   //     if(!Auth::check()){
+   //         FlashMessage::danger("erro");
+   //         $this->redirectTo("/login");
+   //     }
+   // }
+
     public function index(Request $request): void
     {
         $page = $request->getParam('page', 1);
@@ -125,6 +147,6 @@ class BrandsController
 
     //private function isJsonRequest(): bool
     //{
-      //  return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === ///'application/json');
-   // }
+    //  return (isset($_SERVER['HTTP_ACCEPT']) && $_SERVER['HTTP_ACCEPT'] === ///'application/json');
+    // }
 }

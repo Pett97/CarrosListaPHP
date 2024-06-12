@@ -2,12 +2,21 @@
 
 namespace Core\Router;
 
+use Core\Http\Middleware\Middleware;
 use Core\Http\Request;
 use Core\Router\Router;
+
 
 class Route
 {
     private string $name = "";
+
+
+    /**
+     * @var Middleware[]
+     */
+    private array $middlewares = [];
+
     public function __construct(
         private string $method,
         private string $uri,
@@ -55,6 +64,7 @@ class Route
     {
         return $this->method === $request->getMethod();
     }
+
 
     private function isSameUri(Request $request): bool
     {
@@ -127,5 +137,22 @@ class Route
     public static function delete(string $uri, $action): Route
     {
         return Router::getInstance()->addRoute(new Route('DELETE', $uri, $action[0], $action[1]));
+    }
+
+    public function addMiddleware(Middleware $middleware): void
+    {
+        $this->middlewares[] = $middleware;
+    }
+
+    public function runMiddleware(Request $request): void
+    {
+        foreach ($this->middlewares as $middleware) {
+            $middleware->handle($request);
+        }
+    }
+
+    public static function middleware(string $middleware): RouteWrapperMiddleware
+    {
+        return new RouteWrapperMiddleware($middleware);
     }
 }

@@ -28,6 +28,16 @@ class Router
         return $route;
     }
 
+    public function getRouteSize(): int
+    {
+        return sizeof($this->routes);
+    }
+
+    public function getRoute(int $index): Route
+    {
+        return $this->routes[$index];
+    }
+
     public static function getInstance(): Router
     {
         if (self::$instance == null) {
@@ -95,6 +105,7 @@ class Router
 
         foreach ($this->routes as $route) {
             if ($route->match($request)) {
+                $route->runMiddleware($request);
                 $controllerName = $route->getControllerName();
                 $action = $route->getActionName();
                 $controller = new $controllerName();
